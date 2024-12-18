@@ -6,27 +6,23 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:29:55 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/17 20:35:06 by npolack          ###   ########.fr       */
+/*   Updated: 2024/12/18 18:40:19 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	ft_lstadd_back(t_philosoph **lst, t_philosoph *new)
+int	look_for_dead(t_restaurant *inn)
 {
-	t_philosoph	*move;
+	int	i;
 
-	if (!lst || !new)
-		return ;
-	if (*lst == NULL)
-		*lst = new;
-	else
+	i = 0;
+	while (i < inn->guest_nb)
 	{
-		move = *lst;
-		while (move->next)
-			move = move->next;
-		move->next = new;
+		if (inn->philo[i].dead == 0)
+			return (0);
 	}
+	return (1);
 }
 
 int	is_dead(t_philosoph *philo)
@@ -45,8 +41,8 @@ void	*live(void *philo)
 
 void	take_a_nap(t_philosoph *philo)
 {
-	printf("philsoph %d is taking a nap\n", philo->id);
 	philo->sleeping = 1;
+	printf("%d is sleeping\n", philo->id);
 	usleep(philo->time_to_sleep);
 	philo->sleeping = 0;
 	start_thinking(philo);
@@ -54,8 +50,8 @@ void	take_a_nap(t_philosoph *philo)
 
 void	start_thinking(t_philosoph *philo)
 {	
-	printf("Philosoph %d start thinking\n", philo->id);
 	philo->thinking = 1;
+	printf("%d is thinking\n", philo->id);
 }
 
 void	eat(t_philosoph *philo)
@@ -66,31 +62,12 @@ void	eat(t_philosoph *philo)
 	if (other_fork)
 	{
 		philo->thinking = 0;
-		printf("philosoph %d start eating\n", philo->id);
 		philo->eating = 1;
+		printf("%d is eating\n", philo->id);
 		usleep(philo->time_to_eat);
 		philo->eating = 0;
 		philo->fork = 1;
 		*other_fork = 1;
 		take_a_nap(philo);
 	}
-}
-
-int	*take_forks(t_philosoph *philo)
-{
-	int	*philo_s_fork;
-
-	philo_s_fork = NULL;
-	if (philo->fork)
-		philo->fork = 0;
-	else
-		return (NULL);
-	if (philo->next && philo->next->fork)
-	{
-		philo_s_fork = &philo->next->fork;
-		*philo_s_fork = 0;
-	}
-	else
-		philo->fork = 1;
-	return (philo_s_fork);
 }

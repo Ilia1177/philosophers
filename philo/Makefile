@@ -6,7 +6,7 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2024/12/17 20:10:57 by npolack          ###   ########.fr        #
+#    Updated: 2024/12/18 18:34:06 by npolack          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ OBJS_DIR	= objs
 CC			= cc
 C_FLAGS		= -Wall -Wextra -Werror -g
 
-SRCS		= philo.c common.c ft_atoi.c
+SRCS		= philo.c common.c ft_atoi.c fork.c
 SRCS		:= $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS		= $(SRCS: $(SRCS_DIR)/%.c=$(OBJS_DIR/%.o))
 

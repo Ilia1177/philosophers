@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:22:39 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/17 20:07:35 by npolack          ###   ########.fr       */
+/*   Updated: 2024/12/18 18:40:14 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <sys/time.h>
 
 typedef struct s_philosoph
 {
@@ -52,4 +53,6 @@ void	start_thinking(t_philosoph *philo);
 void	eat(t_philosoph *philo);
 int		*take_forks(t_philosoph *philo);
 
+
+int	look_for_dead(t_restaurant *inn);
 #endif
