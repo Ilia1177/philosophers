@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:22:39 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/18 18:40:14 by npolack          ###   ########.fr       */
+/*   Updated: 2024/12/19 19:57:14 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -20,21 +20,33 @@
 
 typedef struct s_philosoph
 {
-	pthread_t	itself;
-	int			id;
-	int			eating;
-	int			sleeping;
-	int			thinking;
-	int			time_to_sleep;
-	int			time_to_eat;
-	int			time_to_die;
-	int			dead;
-	int			fork;
-	struct s_philosoph *next;
+	pthread_mutex_t		*order;
+	pthread_mutex_t		*mutex;
+	pthread_mutex_t		*coffin;
+	struct timeval		start;
+	struct timeval		last_meal;
+	pthread_t			itself;
+	int					id;
+	int					eating;
+	int					sleeping;
+	int					thinking;
+	int					time_to_sleep;
+	int					time_to_eat;
+	int					time_to_die;
+	int					dead;
+	int					fork;
+	struct s_philosoph	*next;
 } t_philosoph;
 
 typedef struct	s_restaurant
 {
+	pthread_mutex_t mutex;
+	pthread_mutex_t order;
+	pthread_mutex_t coffin;
+	struct timeval	start;
+	struct timeval	current_time;
+	struct timeval	elapsed_time;
+	long		time;
 	int			max_meal;
 	int			time_to_sleep;
 	int			time_to_eat;
@@ -54,5 +66,8 @@ void	eat(t_philosoph *philo);
 int		*take_forks(t_philosoph *philo);
 
 
-int	look_for_dead(t_restaurant *inn);
+int	is_dead(t_philosoph *philo);
+void	*manage_customers(void *table);
+suseconds_t look_at_the_clock(t_philosoph *philo);
+int	all_dead(t_restaurant *inn);
 #endif
