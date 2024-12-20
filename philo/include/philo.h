@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:22:39 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/20 01:17:11 by ilia             ###   ########.fr       */
+/*   Updated: 2024/12/20 16:58:02 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -18,14 +18,22 @@
 # include <stdlib.h>
 # include <sys/time.h>
 
+// ANSI color codes
+#define COLOR_RESET   \033[0m
+#define COLOR_RED     \033[31m
+#define COLOR_GREEN   \033[32m
+#define COLOR_YELLOW  \033[33m
+#define COLOR_BLUE    \033[34m
+
 typedef struct s_philosoph
 {
 	pthread_mutex_t		*order;
 	pthread_mutex_t		silverware;
 	pthread_mutex_t		coffin;
-	struct timeval		start;
+	struct timeval		*start;
 	struct timeval		last_meal;
 	pthread_t			itself;
+	int					max_meal;
 	int					id;
 	int					eating;
 	int					sleeping;
@@ -34,40 +42,50 @@ typedef struct s_philosoph
 	int					time_to_eat;
 	int					time_to_die;
 	int					dead;
-	int					fork;
 	struct s_philosoph	*next;
 } t_philosoph;
 
 typedef struct	s_restaurant
 {
-	pthread_mutex_t mutex;
 	pthread_mutex_t order;
-	pthread_mutex_t coffin;
 	struct timeval	start;
-	struct timeval	current_time;
-	struct timeval	elapsed_time;
-	long			time;
 	int				max_meal;
 	int				time_to_sleep;
 	int				time_to_eat;
 	int				time_to_die;
 	int				guest_nb;
-	int				**forks;
 	t_philosoph		*philo;
 	pthread_t		table;
-	int				all_dead;
 } t_restaurant;
 
-void	*live(void *philo);
-int		ft_atoi(const char *nptr);
+// fork.c
+void		take_forks(t_philosoph *philo);
+// common.c
+void		announce(char *message, t_philosoph *philo);
+int			ft_atoi(const char *nptr);
+long long	look_at_the_time(struct timeval *start);
+
+/* chrono.c */
+
+// manager.c
+void	kill_everyone(t_restaurant *inn);
+void	supervise(t_restaurant *inn);
+void	*manage_customers(void *restaurant);
+int		all_alive(t_restaurant *inn);
+int		is_dead(t_philosoph *philo);
+
+// customers.c
+void	*live(void *philosopher);
 void	take_a_nap(t_philosoph *philo);
 void	start_thinking(t_philosoph *philo);
 void	eat(t_philosoph *philo);
-t_philosoph	*take_forks(t_philosoph *philo);
-int		all_alive(t_restaurant *inn);
 
+// establishment.c
 
-int	is_dead(t_philosoph *philo);
-void	*manage_customers(void *table);
-suseconds_t look_at_the_clock(t_philosoph *philo);
+void	put_chairs_in_place(t_restaurant *inn);
+void	welcome_customer(t_restaurant *inn, int id);
+int		open_restaurant(t_restaurant *inn, int argc, char **argv);
+int		dress_a_table(t_restaurant *inn);
+int	close_establishment(t_restaurant *inn);
+
 #endif
