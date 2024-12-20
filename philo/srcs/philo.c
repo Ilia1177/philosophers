@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:15:52 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/19 19:59:05 by ilia             ###   ########.fr       */
+/*   Updated: 2024/12/19 22:24:48 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	dress_a_table(t_restaurant *inn)
 	i = -1;
 	while (++i < inn->guest_nb)
 	{
-		inn->philo[i].mutex = &inn->mutex;
-		inn->philo[i].coffin = &inn->coffin;
+		pthread_mutex_init(&inn->philo[i].silverware, NULL);
+		pthread_mutex_init(&inn->philo[i].coffin, NULL);
 		inn->philo[i].order = &inn->order;
 		inn->forks[i] = &inn->philo[i].fork;
 		inn->philo[i].fork = 1;
@@ -49,11 +49,11 @@ int	dress_a_table(t_restaurant *inn)
 		inn->philo[i].time_to_sleep = inn->time_to_sleep; 
 		inn->philo[i].time_to_eat = inn->time_to_eat;
 		inn->philo[i].time_to_die = inn->time_to_die;
-		inn->philo[i].start = inn->start;
-		inn->philo[i].last_meal	= inn->start;
+//		inn->philo[i].start = inn->start;
+//		inn->philo[i].last_meal	= inn->start;
 
-//		gettimeofday(&inn->philo[i].last_meal, NULL);
-//		gettimeofday(&inn->philo[i].start, NULL);
+		gettimeofday(&inn->philo[i].last_meal, NULL);
+		gettimeofday(&inn->philo[i].start, NULL);
 		pthread_create(&inn->philo[i].itself, NULL, &live, &inn->philo[i]);
 	}
 	return (1);
@@ -77,9 +77,7 @@ int main(int argc, char **argv, char **envp)
 		return (0);
 	}
 	open_restaurant(&inn, argv);
-	printf("%d restaurant opened\n", look_at_the_clock(&inn.philo[0]));
 	dress_a_table(&inn);
-	printf("%d table ready\n", look_at_the_clock(&inn.philo[0]));
 	supervise(&inn);
 	i = 0;
 	while (i < inn.guest_nb)
