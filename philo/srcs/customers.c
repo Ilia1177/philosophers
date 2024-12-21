@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:27:32 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/20 17:03:46 by npolack          ###   ########.fr       */
+/*   Updated: 2024/12/21 03:23:06 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,16 @@ void	take_a_nap(t_philosoph *philo)
 {
 	if (philo->dead)
 		return ;
-	philo->sleeping = 1;
-	announce("\033[34mis sleeping", philo);
+	speak_poetry("is sleeping", philo);
 	usleep(philo->time_to_sleep * 1000);
-	philo->sleeping = 0;
+	start_thinking(philo);
 }
 
 void	start_thinking(t_philosoph *philo)
 {
 	if (philo->dead)
 		return ;
-	philo->thinking = 1;
-	announce("\033[34mis thinking", philo);
+	speak_poetry("is thinking", philo);
 }
 
 void	eat(t_philosoph *philo)
@@ -53,7 +51,7 @@ void	eat(t_philosoph *philo)
 	}
 	philo->max_meal--;
 	gettimeofday(&philo->last_meal, NULL);
-	announce("\033[34mis eating", philo);
+	speak_poetry("is eating", philo);
 	usleep(philo->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo->silverware);
 	pthread_mutex_unlock(&philo->next->silverware);

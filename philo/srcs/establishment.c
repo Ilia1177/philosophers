@@ -6,17 +6,19 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/20 16:39:31 by npolack          ###   ########.fr       */
+/*   Updated: 2024/12/21 03:27:56 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	put_chairs_in_place(t_restaurant *inn)
+int	put_chairs_in_place(t_restaurant *inn)
 {
 	int	i;
 
 	inn->philo = malloc(sizeof(t_philosoph) * inn->guest_nb);
+	if (!inn->philo)
+		return (-1);
 	i = -1;
 	while (++i < inn->guest_nb - 1)
 		inn->philo[i].next = &inn->philo[i + 1];
@@ -24,6 +26,7 @@ void	put_chairs_in_place(t_restaurant *inn)
 	i = -1;
 	while (++i < inn->guest_nb)
 		welcome_customer(inn, i);
+	return (0);
 }
 
 void	welcome_customer(t_restaurant *inn, int id)
@@ -40,16 +43,26 @@ void	welcome_customer(t_restaurant *inn, int id)
 	inn->philo[id].start = &inn->start;
 }
 
+
+
 int	open_restaurant(t_restaurant *inn, int argc, char **argv)
 {
 	gettimeofday(&inn->start, NULL);
 	pthread_mutex_init(&inn->order, NULL);
-	inn->guest_nb = ft_atoi(argv[1]);
-	inn->time_to_die = ft_atoi(argv[2]);
-	inn->time_to_eat = ft_atoi(argv[3]);
-	inn->time_to_sleep = ft_atoi(argv[4]);
+
+	if (ft_atoi(argv[1], &inn->guest_nb) == -1)
+		return (-1);
+	if (ft_atoi(argv[2], &inn->time_to_die) == -1)
+		return (-1);
+	if (ft_atoi(argv[3], &inn->time_to_eat) == -1)
+		return (-1);
+	if (ft_atoi(argv[4], &inn->time_to_sleep) == -1)
+		return (-1);
 	if (argc == 6)
-		inn->max_meal = ft_atoi(argv[5]);
+	{
+		if (ft_atoi(argv[5], &inn->max_meal) == -1)
+			return (-1);
+	}
 	else if (argc == 5)
 		inn->max_meal = -1;
 	put_chairs_in_place(inn);

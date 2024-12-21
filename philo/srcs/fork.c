@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:34:22 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/20 17:04:02 by npolack          ###   ########.fr       */
+/*   Updated: 2024/12/21 01:34:52 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	take_own_fork_first(t_philosoph *philo)
 		pthread_mutex_unlock(&philo->silverware);
 		return ;
 	}
-	announce("\033[34mhas taken a fork", philo);
+	speak_poetry("has taken a fork", philo);
 	pthread_mutex_lock(&philo->next->silverware);
 	if (philo->dead)
 	{
@@ -39,7 +39,7 @@ static void	take_own_fork_first(t_philosoph *philo)
 		pthread_mutex_unlock(&philo->next->silverware);
 		return ;
 	}
-	announce("\033[34mhas taken a fork", philo);
+	speak_poetry("has taken a fork", philo);
 }
 
 static void	take_next_fork_first(t_philosoph *philo)
@@ -50,7 +50,7 @@ static void	take_next_fork_first(t_philosoph *philo)
 		pthread_mutex_unlock(&philo->silverware);
 		return ;
 	}
-	announce("\033[34mhas taken a fork", philo);
+	speak_poetry("has taken a fork", philo);
 	pthread_mutex_lock(&philo->silverware);
 	if (philo->dead)
 	{
@@ -58,5 +58,5 @@ static void	take_next_fork_first(t_philosoph *philo)
 		pthread_mutex_unlock(&philo->next->silverware);
 		return ;
 	}
-	announce("\033[34mhas taken a fork", philo);
+	speak_poetry("has taken a fork", philo);
 }
