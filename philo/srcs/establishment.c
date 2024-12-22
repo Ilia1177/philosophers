@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/21 03:27:56 by ilia             ###   ########.fr       */
+/*   Updated: 2024/12/22 21:58:34 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	put_chairs_in_place(t_restaurant *inn)
 
 void	welcome_customer(t_restaurant *inn, int id)
 {
+	pthread_mutex_init(&inn->philo[id].coffin, NULL);
 	pthread_mutex_init(&inn->philo[id].silverware, NULL);
 	inn->philo[id].order = &inn->order;
 	inn->philo[id].dead = 0;
@@ -86,6 +87,7 @@ int	close_establishment(t_restaurant *inn)
 	i = 0;
 	while (i < inn->guest_nb)
 	{
+		pthread_mutex_destroy(&inn->philo[i].coffin);
 		pthread_mutex_destroy(&inn->philo[i].silverware);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:29:55 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/21 04:09:24 by ilia             ###   ########.fr       */
+/*   Updated: 2024/12/22 23:04:16 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,16 @@ void	speak_poetry(char *poem, t_philosoph *philo)
 	struct timeval	*start;
 	long long		instant;
 
-	if (philo->dead)
-		return ;
 	start = philo->start;
 	pthread_mutex_lock(philo->order);
+	pthread_mutex_lock(&philo->coffin);
 	if (philo->dead)
 	{
+		pthread_mutex_unlock(&philo->coffin);
 		pthread_mutex_unlock(philo->order);
 		return ;
 	}
+	pthread_mutex_unlock(&philo->coffin);
 	instant = look_at_the_time(start) / 1000;
 	if (philo->id % 5 == 0)
 		printf("\033[31m %04lld %3d %s\033[0m\n", instant, philo->id, poem);

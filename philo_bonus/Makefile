@@ -6,7 +6,7 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2024/12/22 22:58:15 by ilia             ###   ########.fr        #
+#    Updated: 2024/12/20 16:18:44 by npolack          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = bin/philo
 SRCS_DIR	= srcs
 OBJS_DIR	= objs
 CC			= gcc
-C_FLAGS		= -Wall -Wextra -Werror -fsanitize=thread
+C_FLAGS		= -Wall -Wextra -Werror -g
 
 SRCS		= fork.c\
 			  philo.c\

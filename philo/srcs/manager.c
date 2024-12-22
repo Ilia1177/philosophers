@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:25:34 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/21 03:40:15 by ilia             ###   ########.fr       */
+/*   Updated: 2024/12/22 23:11:50 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ void	kill_everyone(t_restaurant *inn)
 
 	i = -1;
 	while (++i < inn->guest_nb)
+	{
+		pthread_mutex_lock(&inn->philo[i].coffin);
 		inn->philo[i].dead = 1;
+		pthread_mutex_unlock(&inn->philo[i].coffin);
+	}
 }
 
 void	*manage_customers(void *restaurant)
@@ -33,7 +37,6 @@ void	*manage_customers(void *restaurant)
 	inn = restaurant;
 	while (all_alive(inn))
 		;
-	pthread_mutex_lock(&inn->order);
 	kill_everyone(inn);
 	pthread_mutex_unlock(&inn->order);
 	return (NULL);
@@ -58,9 +61,11 @@ int	is_dead(t_philosoph *philo)
 	if (from_last_meal / 1000 > philo->time_to_die)
 	{
 		speak_poetry("died", philo);
+		pthread_mutex_lock(philo->order);
+		pthread_mutex_lock(&philo->coffin);
 		philo->dead = 1;
+		pthread_mutex_unlock(&philo->coffin);
 		return (1);
 	}
-	else
-		return (0);
+	return (0);
 }
