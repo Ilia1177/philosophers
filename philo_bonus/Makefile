@@ -6,7 +6,7 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2024/12/20 16:18:44 by npolack          ###   ########.fr        #
+#    Updated: 2024/12/24 14:47:32 by ilia             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,7 @@ OBJS_DIR	= objs
 CC			= gcc
 C_FLAGS		= -Wall -Wextra -Werror -g
 
-SRCS		= fork.c\
-			  philo.c\
+SRCS		= philo.c\
 			  common.c\
 			  customers.c\
 			  manager.c\
