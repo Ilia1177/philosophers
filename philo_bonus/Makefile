@@ -6,16 +6,25 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2024/12/24 14:47:32 by ilia             ###   ########.fr        #
+#    Updated: 2025/01/02 18:49:19 by ilia             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = bin/philo
 
+OS := $(shell uname)
+
+ifeq ($(OS), Linux)
+    LIBS	:= -lrt
+	CC		= cc
+else
+    LIBS	:=
+	CC		= clang
+endif
+
 SRCS_DIR	= srcs
 OBJS_DIR	= objs
-CC			= gcc
-C_FLAGS		= -Wall -Wextra -Werror -g
+C_FLAGS		= -Wall -Wextra -Werror -g -O2 #-fsanitize=thread 
 
 SRCS		= philo.c\
 			  common.c\
@@ -34,7 +43,7 @@ all				: $(NAME)
 
 $(NAME)			: $(OBJS)
 	@mkdir -p bin
-	$(CC) $(C_FLAGS) $^ -o $@
+	$(CC) $(C_FLAGS) $^ -o $@ $(LIBS)
 
 
 clean			:
