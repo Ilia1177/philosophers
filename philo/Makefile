@@ -6,7 +6,7 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2024/12/31 21:38:36 by ilia             ###   ########.fr        #
+#    Updated: 2025/01/12 23:14:33 by ilia             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ clean			:
 	rm -fr $(OBJS_DIR)
 
 fclean			: clean
-	rm $(NAME)
+	rm -fr bin
 
 re				: fclean all
 
