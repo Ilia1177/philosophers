@@ -6,7 +6,7 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2025/01/12 22:47:22 by ilia             ###   ########.fr        #
+#    Updated: 2025/01/12 23:34:50 by ilia             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ endif
 
 SRCS_DIR	= srcs
 OBJS_DIR	= objs
-C_FLAGS		= -Wall -Wextra -Werror -g -fsanitize=thread 
+C_FLAGS		= -Wall -Wextra -Werror -g #-fsanitize=thread 
 
 SRCS		= philo.c\
 			  common.c\
@@ -52,6 +52,9 @@ clean			:
 
 fclean			: clean
 	rm -fr bin
+
+:q
+
 
 re				: fclean all
 

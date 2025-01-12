@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 16:43:24 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/11 03:10:14 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/12 23:44:44 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <signal.h>
 # include <string.h>
 
+int	fourchette;
 typedef	struct s_philosoph
 {
 	char			sem_name[3];
