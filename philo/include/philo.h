@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:22:39 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/21 01:56:23 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/01 23:41:13 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -30,10 +30,13 @@ typedef struct s_philosoph
 	pthread_mutex_t		*order;
 	pthread_mutex_t		silverware;
 	pthread_mutex_t		coffin;
+	pthread_mutex_t		watch;
+	pthread_mutex_t		stomach;
 	struct timeval		*start;
 	struct timeval		last_meal;
 	pthread_t			itself;
 	int					max_meal;
+	int					full;
 	int					id;
 	int					eating;
 	int					sleeping;

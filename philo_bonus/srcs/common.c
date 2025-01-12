@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 16:51:45 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/02 18:51:20 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/11 06:38:18 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	speak_poetry(char *poem, t_philosoph *philo)
 	if (is_starving(philo))
 		return ;
 	sem_wait(philo->speak);
-	instant = look_at_the_time(philo->start) / 1000;
+	instant = look_at_the_time(&philo->start) / 1000;
 	if (philo->id % 5 == 0)
 		printf("\033[31m %04lld %3d %s\033[0m\n", instant, philo->id, poem);
 	else if (philo->id % 5 == 1)                 

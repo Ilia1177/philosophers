@@ -6,11 +6,11 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2025/01/02 18:49:19 by ilia             ###   ########.fr        #
+#    Updated: 2025/01/12 22:47:22 by ilia             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = bin/philo
+NAME = bin/philo_bonus
 
 OS := $(shell uname)
 
@@ -24,13 +24,14 @@ endif
 
 SRCS_DIR	= srcs
 OBJS_DIR	= objs
-C_FLAGS		= -Wall -Wextra -Werror -g -O2 #-fsanitize=thread 
+C_FLAGS		= -Wall -Wextra -Werror -g -fsanitize=thread 
 
 SRCS		= philo.c\
 			  common.c\
 			  customers.c\
 			  manager.c\
 			  establishment.c\
+			  routine.c\
 
 SRCS		:= $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS		= $(SRCS: $(SRCS_DIR)/%.c=$(OBJS_DIR/%.o))
@@ -50,7 +51,7 @@ clean			:
 	rm -fr $(OBJS_DIR)
 
 fclean			: clean
-	rm $(NAME)
+	rm -fr bin
 
 re				: fclean all
 

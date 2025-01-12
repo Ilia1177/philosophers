@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 18:05:14 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/02 03:23:31 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/11 08:42:01 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int main(int argc, char **argv)
 		return (emergency_exit(NULL, "fail opening restaurant"));
 	if (welcome_customers(&inn) == -1)
 		return (emergency_exit(&inn, "Customers has been kicked out"));
-	close_establishment(&inn);
+	if (close_establishment(&inn) == -1)
+		return (emergency_exit(NULL, "fail closing sem\n"));
 	return (0);	
 }

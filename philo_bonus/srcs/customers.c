@@ -3,73 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   customers.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/20 15:27:32 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/02 17:48:12 by ilia             ###   ########.fr       */
+/*   Created: 2025/01/11 01:33:07 by ilia              #+#    #+#             */
+/*   Updated: 2025/01/12 22:12:02 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
 
-int	is_starving(t_philosoph *philo)
+int	watch_on(t_philosoph *philo)
 {
-	sem_wait(philo->starvation);
-	if (philo->dead == 1)
-	{
-		sem_post(philo->starvation);
-		return (1);
-	}
-	sem_post(philo->starvation);
+	pthread_t	leave;
+	pthread_t	killer;
+	
+	pthread_create(&philo->itself, NULL, &sit_at_the_table, philo);
+	pthread_create(&killer, NULL, &murder, philo); // kill the philo when starving 
+	pthread_create(&leave, NULL, &look_for_dead, philo);
+	pthread_join(philo->itself, NULL); // philosopher routine
+	pthread_join(leave, NULL); // look for the death of philo[i]
+	pthread_join(killer, NULL); // look for the death of another philo
+	return (1);
+}
+
+int	customer_process(t_philosoph *philo)
+{
+	sem_post(philo->forks);
+	watch_on(philo);
+	sem_close(philo->starvation);
+	sem_close(philo->forks);
+	sem_close(philo->speak);
+	sem_close(philo->one_dead);
+	sem_unlink(philo->sem_name);
+	printf(">>>>> %d is finishing\n", philo->id);
 	return (0);
 }
 
-void	take_forks(t_philosoph *philo)
+int	welcome_customers(t_restaurant *inn)
 {
-	sem_wait(philo->forks);
-	if (is_starving(philo))
+	int			i;
+	t_philosoph	philo;
+
+	//pthread_t	waiter;
+	printf(">>>>> welcome customers\n");
+	//pthread_create(&waiter, NULL, &serve, inn);
+	i = 0;
+	while (i < inn->guest_nb)
 	{
-		sem_post(philo->forks);
-		return ;
+		philo.pid = fork();
+		if (!philo.pid)
+		{
+			philo = new_customer(inn, i + 1);
+			if (philo.id == -1)
+				return (-1);
+			if (customer_process(&philo) == -1)
+				return (emergency_exit(NULL, "child fail\n"));
+			sem_close(philo.starvation);
+			sem_close(philo.forks);
+			sem_close(philo.speak);
+			sem_close(philo.one_dead);
+			exit (0);
+		}
+		else if (philo.pid > 0)
+			i++;
+		else
+			return (emergency_exit(inn, "error fork"));
 	}
-	speak_poetry("has taken a fork", philo);
-	sem_wait(philo->forks);
-	if (is_starving(philo))
-	{
-		sem_post(philo->forks);
-		sem_post(philo->forks);
-		return ;
-	}
-	speak_poetry("has taken a fork", philo);
+	while (waitpid(-1, NULL, 0) > 0)
+		;
+ 	printf(">>>> end welcoming\n");
+	return (0);
 }
-
-void	take_a_nap(t_philosoph *philo)
+t_philosoph	new_customer(t_restaurant *inn, int id)
 {
-	if (is_starving(philo))
-		return ;
-	speak_poetry("is sleeping", philo);
-	usleep(philo->time_to_sleep * 1000);
-	start_thinking(philo);
-}
+	t_philosoph	philo;
 
-void	start_thinking(t_philosoph *philo)
-{
-	if (is_starving(philo))
-		return ;
-	speak_poetry("is thinking", philo);
-}
+	philo.full = 0;
+	philo.dead = 0;
+	philo.max_meal = inn->max_meal;
+	philo.id = id;
+	philo.time_to_sleep = inn->time_to_sleep;
+	philo.time_to_eat = inn->time_to_eat;
+	philo.time_to_die = inn->time_to_die;
+	gettimeofday(&philo.last_meal, NULL);
+	gettimeofday(&philo.start, NULL);
 
-void	eat(t_philosoph *philo)
-{
-	take_forks(philo);
-	if (is_starving(philo))
-		return ;
-	if (philo->max_meal > 0)
-		philo->max_meal--;
-	gettimeofday(&philo->last_meal, NULL);
-	speak_poetry("is eating", philo);
-	usleep(philo->time_to_eat * 1000);
-	sem_post(philo->forks);
-	sem_post(philo->forks);
-	take_a_nap(philo);
+	philo.sem_name[0] = '/';
+	philo.sem_name[1] = 'A' + id - 1;
+	philo.sem_name[2] = '\0';
+	philo.forks = sem_open("/silverware", 0);
+	philo.speak = sem_open("/speaker", 0);
+	philo.one_dead = sem_open("/death", 0);
+	philo.starvation = sem_open(philo.sem_name, O_CREAT | O_EXCL, 0644, 1);
+	return (philo);
 }

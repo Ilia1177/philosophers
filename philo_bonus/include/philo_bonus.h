@@ -6,18 +6,20 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 16:43:24 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/02 15:10:02 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/11 03:10:14 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 # include <unistd.h>
+# include <pthread.h>
 # include <stdio.h>
 # include <semaphore.h>
 # include <limits.h>
 # include <sys/time.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 # include <pthread.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -26,10 +28,12 @@
 
 typedef	struct s_philosoph
 {
+	char			sem_name[3];
 	sem_t			*starvation;
 	sem_t			*forks;
 	sem_t			*speak;
 	sem_t			*one_dead;
+	sem_t			*one_full;
 	int				dead;
 	int				full;
 	pthread_t		itself;
@@ -40,7 +44,7 @@ typedef	struct s_philosoph
 	int				time_to_die;
 	int				max_meal;
 	struct timeval	last_meal;
-	struct timeval	*start;
+	struct timeval	start;
 }	t_philosoph;
 
 typedef struct s_restaurant
@@ -63,11 +67,13 @@ int	is_starving(t_philosoph *philo);
 void		eat(t_philosoph *philo);
 void		start_thinking(t_philosoph *philo);
 void		take_a_nap(t_philosoph *philo);
-void		*live(void *philosopher);
+void		*murder(void *philosopher);
+void		*look_for_dead(void *philosopher);
 int			ft_atoi(const char *nptr, int *result);
 void		speak_poetry(char *poem, t_philosoph *philo);
 long long	look_at_the_time(struct timeval *start);
 int			open_restaurant(t_restaurant *inn, int argc, char **argv);
+int			customer_process(t_philosoph *philo);
 int			is_dead(t_philosoph *philo);
 int			close_establishment(t_restaurant *inn);
 t_philosoph	new_customer(t_restaurant *inn, int id);

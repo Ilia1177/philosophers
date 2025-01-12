@@ -6,30 +6,34 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:25:34 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/02 18:25:35 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/12 22:12:02 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
 
+int	is_starving(t_philosoph *philo)
+{
+    int life_situation;
+
+    sem_wait(philo->starvation);
+    life_situation = (philo->dead == 1); 
+	sem_post(philo->starvation);
+    return (life_situation);
+}
+
 int	is_dead(t_philosoph *philo)
 {
 	long long	from_last_meal;
 
-	sem_wait(philo->starvation);
-	if (philo->dead)
-	{
-		sem_post(philo->starvation);
+	if (is_starving(philo))
 		return (1);
-	}
 	from_last_meal = look_at_the_time(&philo->last_meal);
 	if (from_last_meal > philo->time_to_die * 1000)
 	{
 		speak_poetry("died", philo);
-		philo->dead = 1;
-		sem_post(philo->starvation);
+		sem_post(philo->one_dead);
 		return (1);
 	}
-	sem_post(philo->starvation);
 	return (0);
 }

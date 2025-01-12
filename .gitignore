@@ -1,0 +1,6 @@
+*/*.dSYM
+*/*.dSYM*
+*/*.swo
+*/*.swp
+
+.DS_Store

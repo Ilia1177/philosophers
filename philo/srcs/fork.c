@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:34:22 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/22 22:06:31 by ilia             ###   ########.fr       */
+/*   Updated: 2024/12/28 00:02:32 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	take_forks(t_philosoph *philo)
 
 static void	take_own_fork_first(t_philosoph *philo)
 {
+	if (!philo->next)
+		return ;
 	pthread_mutex_lock(&philo->silverware);
 	pthread_mutex_lock(&philo->coffin);
 	if (philo->dead)
@@ -50,6 +52,8 @@ static void	take_own_fork_first(t_philosoph *philo)
 
 static void	take_next_fork_first(t_philosoph *philo)
 {
+	if (!philo->next)
+		return ;
 	pthread_mutex_lock(&philo->next->silverware);
 	pthread_mutex_lock(&philo->coffin);
 	if (philo->dead)
