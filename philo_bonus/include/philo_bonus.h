@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 16:43:24 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/12 23:44:44 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/13 23:34:30 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <signal.h>
 # include <string.h>
 
-int	fourchette;
 typedef	struct s_philosoph
 {
 	char			sem_name[3];
@@ -50,8 +49,8 @@ typedef	struct s_philosoph
 
 typedef struct s_restaurant
 {
-	sem_t			*all_full;
-	sem_t			*one_is_dead;
+	sem_t			*one_full;
+	sem_t			*one_dead;
 	sem_t			*forks;
 	sem_t			*speak;
 	t_philosoph		*philo;
@@ -69,7 +68,8 @@ void		eat(t_philosoph *philo);
 void		start_thinking(t_philosoph *philo);
 void		take_a_nap(t_philosoph *philo);
 void		*murder(void *philosopher);
-void		*look_for_dead(void *philosopher);
+void		*wait_for_dead(void *philosopher);
+void		*wait_for_full(void *inn);
 int			ft_atoi(const char *nptr, int *result);
 void		speak_poetry(char *poem, t_philosoph *philo);
 long long	look_at_the_time(struct timeval *start);

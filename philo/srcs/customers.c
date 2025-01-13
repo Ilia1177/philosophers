@@ -6,13 +6,13 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:27:32 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/02 00:12:18 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/13 22:54:56 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-int		is_starving(t_philosoph *philo)
+int	is_starving(t_philosoph *philo)
 {
 	pthread_mutex_lock(&philo->coffin);
 	if (philo->dead)
@@ -50,7 +50,7 @@ void	start_thinking(t_philosoph *philo)
 	speak_poetry("is thinking", philo);
 }
 
-void	eati2(t_philosoph *philo)
+void	eat(t_philosoph *philo)
 {
 	if (!philo->next)
 	{
@@ -62,11 +62,8 @@ void	eati2(t_philosoph *philo)
 	}
 	take_forks(philo);
 	if (is_starving(philo))
-	{
-		pthread_mutex_unlock(&philo->silverware);
-		pthread_mutex_unlock(&philo->next->silverware);
 		return ;
-	}
+	speak_poetry("is eating", philo);
 	pthread_mutex_lock(&philo->stomach);
 	if (philo->max_meal > 0)
 		philo->max_meal--;
@@ -74,40 +71,8 @@ void	eati2(t_philosoph *philo)
 	pthread_mutex_lock(&philo->watch);
 	gettimeofday(&philo->last_meal, NULL);
 	pthread_mutex_unlock(&philo->watch);
-	speak_poetry("is eating", philo);
 	usleep(philo->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo->silverware);
 	pthread_mutex_unlock(&philo->next->silverware);
 	take_a_nap(philo);
-}
-
-void	eat(t_philosoph *philo)
-{
-    if (!philo->next)
-    {
-        pthread_mutex_lock(&philo->silverware);
-        speak_poetry("has taken a fork", philo);
-        usleep(philo->time_to_die * 1000);
-        pthread_mutex_unlock(&philo->silverware);
-        return ;
-    }
-    take_forks(philo);
-    if (is_starving(philo))
-    {
-        pthread_mutex_unlock(&philo->silverware);
-        pthread_mutex_unlock(&philo->next->silverware);
-        return ;
-    }
-    pthread_mutex_lock(&philo->stomach);
-    if (philo->max_meal > 0)
-        philo->max_meal--;
-    pthread_mutex_unlock(&philo->stomach);
-    pthread_mutex_lock(&philo->watch);
-    gettimeofday(&philo->last_meal, NULL);
-    pthread_mutex_unlock(&philo->watch);
-    speak_poetry("is eating", philo);
-    usleep(philo->time_to_eat * 1000);
-    pthread_mutex_unlock(&philo->silverware);
-    pthread_mutex_unlock(&philo->next->silverware);
-    take_a_nap(philo);
 }

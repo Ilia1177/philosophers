@@ -6,16 +6,11 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:25:34 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/02 00:06:54 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/13 22:36:00 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-
-void	supervise(t_restaurant *inn)
-{
-	pthread_create(&inn->table, NULL, &manage_customers, inn);
-}
 
 void	kill_everyone(t_restaurant *inn)
 {
@@ -37,7 +32,7 @@ int	all_full(t_restaurant *inn)
 	if (inn->max_meal == -1)
 		return (0);
 	i = -1;
-	while(++i < inn->guest_nb)
+	while (++i < inn->guest_nb)
 	{
 		pthread_mutex_lock(&inn->philo[i].stomach);
 		if (inn->philo[i].max_meal > 0)
@@ -68,7 +63,7 @@ int	all_alive(t_restaurant *inn)
 
 	i = -1;
 	while (++i < inn->guest_nb)
-		if (is_dead(&inn->philo[i])) //inn->philo[i].id && 
+		if (is_dead(&inn->philo[i])) 
 			return (0);
 	return (1);
 }

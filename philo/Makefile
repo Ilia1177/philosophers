@@ -6,7 +6,7 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2025/01/12 23:14:33 by ilia             ###   ########.fr        #
+#    Updated: 2025/01/13 21:40:07 by ilia             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,18 +25,17 @@ SRCS		= fork.c\
 			  establishment.c\
 
 SRCS		:= $(addprefix $(SRCS_DIR)/, $(SRCS))
-OBJS		= $(SRCS: $(SRCS_DIR)/%.c=$(OBJS_DIR/%.o))
+OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+
+all				: $(NAME) 
 
 $(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c 
 	@mkdir -p $(OBJS_DIR)
 	$(CC) $(C_FLAGS) -c $< -o $@
 
-all				: $(NAME) 
-
 $(NAME)			: $(OBJS)
 	@mkdir -p bin
 	$(CC) $(C_FLAGS) $^ -o $@
-
 
 clean			:
 	rm -fr $(OBJS_DIR)

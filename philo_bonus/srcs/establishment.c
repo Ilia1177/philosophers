@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/13 11:29:39 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/13 23:17:55 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ int	open_restaurant(t_restaurant *inn, int argc, char **argv)
         sem_unlink("/silverware");
         return (emergency_exit(inn, "sem_open failed\n"));
     }
-	inn->one_is_dead = sem_open("/death", O_CREAT | O_EXCL, 0644, 0);
-	if (inn->one_is_dead == SEM_FAILED)
+	inn->one_dead = sem_open("/death", O_CREAT | O_EXCL, 0644, 0);
+	if (inn->one_dead == SEM_FAILED)
 	{
 		sem_unlink("/silverware");
 		sem_unlink("/speaker");
 		  return (emergency_exit(inn, "sem_open failed\n"));
 	}
-	//inn->all_full = sem_open("/full", O_CREAT | O_EXCL, 0644, 0);
+	inn->one_full = sem_open("/full", O_CREAT | O_EXCL, 0644, 0);
 	return (1);
 }
 
@@ -52,62 +52,11 @@ int	close_establishment(t_restaurant *inn)
 {
 	sem_close(inn->forks);
 	sem_close(inn->speak);
-	sem_close(inn->one_is_dead);
-//	sem_close(inn->all_full);
+	sem_close(inn->one_dead);
+	sem_close(inn->one_full);
 	sem_unlink("/silverware");
 	sem_unlink("/speaker");
 	sem_unlink("/death");
-//	sem_unlink("/full");
+	sem_unlink("/full");
 	return (0);
-}
-
-
-void	*sit_at_the_table(void	*philosopher)
-{
-	t_philosoph	*philo;
-
-	philo = philosopher;
-	while (!is_starving(philo))
-		eat(philo);
-	return (NULL);
-}
-
-void	*look_for_dead(void *philosopher)
-{
-	t_philosoph	*philo;
-
-	philo = philosopher;
-	sem_wait(philo->one_dead);
-	sem_post(philo->one_dead);
-	sem_wait(philo->starvation);
-	philo->dead = 1;
-	sem_post(philo->starvation);
-	return (NULL);
-}
-
-void	*murder(void *philosoph)
-{
-	t_philosoph	*philo;
-
-	philo = philosoph;
-	while (!is_dead(philo))
-		;
-	sem_post(philo->one_dead);
-	return (NULL);
-}
-
-void	*look_for_full(void *restaurant)
-{
-	int	i;
-	t_restaurant	*inn;
-
-	inn = restaurant;
-	i = 0;
-	while (i < inn->guest_nb)
-	{
-		sem_wait(inn->all_full);
-		i++;
-	}
-	// ....
-	return (NULL);
 }

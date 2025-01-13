@@ -6,7 +6,7 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2025/01/12 23:34:50 by ilia             ###   ########.fr        #
+#    Updated: 2025/01/13 23:12:02 by ilia             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,15 +26,16 @@ SRCS_DIR	= srcs
 OBJS_DIR	= objs
 C_FLAGS		= -Wall -Wextra -Werror -g #-fsanitize=thread 
 
-SRCS		= philo.c\
-			  common.c\
-			  customers.c\
-			  manager.c\
-			  establishment.c\
-			  routine.c\
+SRCS		=	philo.c\
+				common.c\
+				customers.c\
+				manager.c\
+			 	establishment.c\
+			 	routine.c\
+				job.c\
 
 SRCS		:= $(addprefix $(SRCS_DIR)/, $(SRCS))
-OBJS		= $(SRCS: $(SRCS_DIR)/%.c=$(OBJS_DIR/%.o))
+OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 $(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c 
 	@mkdir -p $(OBJS_DIR)
@@ -52,9 +53,6 @@ clean			:
 
 fclean			: clean
 	rm -fr bin
-
-:q
-
 
 re				: fclean all
 

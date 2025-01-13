@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:15:52 by npolack           #+#    #+#             */
-/*   Updated: 2024/12/21 04:09:24 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/13 22:28:26 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int argc, char **argv)
 		return (emergency_exit(NULL , NULL));
 	if (open_restaurant(&inn, argc, argv) == -1)
 		return (emergency_exit(&inn, "Restaurant only accept positive int\n"));
-	supervise(&inn);
+	pthread_create(&inn.table, NULL, &manage_customers, &inn);
 	dress_a_table(&inn);
 	i = -1;
 	while (++i < inn.guest_nb)

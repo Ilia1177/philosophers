@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:25:34 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/12 22:12:02 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/13 23:30:19 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ int	is_dead(t_philosoph *philo)
 	{
 		speak_poetry("died", philo);
 		sem_post(philo->one_dead);
+		//sem_wait(philo->starvation);
+		//philo->dead = 1;
+		//sem_post(philo->starvation);
 		return (1);
 	}
 	return (0);
