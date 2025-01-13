@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 01:33:07 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/12 22:12:02 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/13 11:33:45 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	watch_on(t_philosoph *philo)
 
 int	customer_process(t_philosoph *philo)
 {
-	sem_post(philo->forks);
 	watch_on(philo);
 	sem_close(philo->starvation);
 	sem_close(philo->forks);
@@ -95,5 +94,6 @@ t_philosoph	new_customer(t_restaurant *inn, int id)
 	philo.speak = sem_open("/speaker", 0);
 	philo.one_dead = sem_open("/death", 0);
 	philo.starvation = sem_open(philo.sem_name, O_CREAT | O_EXCL, 0644, 1);
+	sem_post(philo->forks);
 	return (philo);
 }

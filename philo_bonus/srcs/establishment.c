@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/12 23:44:04 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/13 11:29:39 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	open_restaurant(t_restaurant *inn, int argc, char **argv)
 
 int	close_establishment(t_restaurant *inn)
 {
-	free(inn->philo);
 	sem_close(inn->forks);
 	sem_close(inn->speak);
 	sem_close(inn->one_is_dead);

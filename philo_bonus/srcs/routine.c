@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:27:32 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/12 23:43:19 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/13 11:51:03 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	take_forks(t_philosoph *philo)
 {
 	sem_wait(philo->forks);
 	fourchette--;
-	if (is_starving(philo))
+	//if (is_starving(philo))
+	if (is_dead(philo))
 	{
 		sem_post(philo->forks);
 		return ;
@@ -24,7 +25,8 @@ void	take_forks(t_philosoph *philo)
 	speak_poetry("has taken a fork", philo);
 	sem_wait(philo->forks);
 	fourchette--;
-	if (is_starving(philo))
+	//if (is_starving(philo))
+	if (is_dead(philo))
 	{
 		sem_post(philo->forks);
 		sem_post(philo->forks);
@@ -35,7 +37,8 @@ void	take_forks(t_philosoph *philo)
 
 void	take_a_nap(t_philosoph *philo)
 {
-	if (is_starving(philo))
+	//if (is_starving(philo))
+	if (is_dead(philo))
 		return ;
 	speak_poetry("is sleeping", philo);
 	usleep(philo->time_to_sleep * 1000);
