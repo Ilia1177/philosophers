@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:15:52 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/13 22:28:26 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/14 15:15:44 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	emergency_exit(t_restaurant *inn, char *message)
 {
-	char *usage;
+	char	*usage;
 
 	usage = "usage : <philo_nb> <t_die> <t_eat> <t_sleep> [max_meal]\n";
 	if (inn)
 		pthread_mutex_destroy(&inn->order);
 	if (!message)
 		printf("%s", usage);
-	else 
+	else
 		printf("%s", message);
 	return (0);
 }
@@ -52,7 +52,7 @@ int	main(int argc, char **argv)
 	int				i;
 
 	if (argc < 5 || argc > 6 || communication(argc, argv) == -1)
-		return (emergency_exit(NULL , NULL));
+		return (emergency_exit(NULL, NULL));
 	if (open_restaurant(&inn, argc, argv) == -1)
 		return (emergency_exit(&inn, "Restaurant only accept positive int\n"));
 	pthread_create(&inn.table, NULL, &manage_customers, &inn);

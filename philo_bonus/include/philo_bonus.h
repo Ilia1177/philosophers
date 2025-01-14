@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 16:43:24 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/13 23:34:30 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/14 12:17:21 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_restaurant
 	int				max_meal;
 }	t_restaurant;
 
+void		take_time(t_philosoph *philo, int time);
 int	is_starving(t_philosoph *philo);
 void		eat(t_philosoph *philo);
 void		start_thinking(t_philosoph *philo);

@@ -6,61 +6,74 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:34:22 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/13 22:20:58 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/14 15:54:03 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-static void		take_next_fork_first(t_philosoph *philo);
-static void		take_own_fork_first(t_philosoph *philo);
+static int		take_next_fork_first(t_philosoph *philo);
+static int		take_own_fork_first(t_philosoph *philo);
 
-void	take_forks(t_philosoph *philo)
+int	take_forks(t_philosoph *philo)
 {
 	if (philo->id % 2 == 0)
-		take_own_fork_first(philo);
+	{
+		if (take_own_fork_first(philo))
+			return (1);
+		else
+			return (0);
+	}
 	else
-		take_next_fork_first(philo);
+	{
+		if (take_next_fork_first(philo))
+			return (1);
+		else 
+			return (0);
+	}
+	return (1);
 }
 
-static void	take_own_fork_first(t_philosoph *philo)
+static int	take_own_fork_first(t_philosoph *philo)
 {
 	if (!philo->next)
-		return ;
+		return (0);
 	pthread_mutex_lock(&philo->silverware);
+	speak_poetry("has taken a fork", philo);
 	if (is_starving(philo))
 	{
 		pthread_mutex_unlock(&philo->silverware);
-		return ;
+		return (0);
 	}
-	speak_poetry("has taken a fork", philo);
 	pthread_mutex_lock(&philo->next->silverware);
+	speak_poetry("has taken a fork", philo);
 	if (is_starving(philo))
 	{
 		pthread_mutex_unlock(&philo->silverware);
 		pthread_mutex_unlock(&philo->next->silverware);
-		return ;
+		return (0);
 	}
-	speak_poetry("has taken a fork", philo);
+	return (1);
 }
 
-static void	take_next_fork_first(t_philosoph *philo)
+static int	take_next_fork_first(t_philosoph *philo)
 {
 	if (!philo->next)
-		return ;
+		return (0);
 	pthread_mutex_lock(&philo->next->silverware);
+	speak_poetry("has taken a fork", philo);
 	if (is_starving(philo))
 	{
 		pthread_mutex_unlock(&philo->next->silverware);
-		return ;
+		return (0);
 	}
-	speak_poetry("has taken a fork", philo);
 	pthread_mutex_lock(&philo->silverware);
+	speak_poetry("has taken a fork", philo);
 	if (is_starving(philo))
 	{
 		pthread_mutex_unlock(&philo->silverware);
 		pthread_mutex_unlock(&philo->next->silverware);
-		return ;
+		return (0);
 	}
-	speak_poetry("has taken a fork", philo);
+	return (1);
 }

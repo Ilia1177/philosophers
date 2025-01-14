@@ -6,11 +6,25 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 16:51:45 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/11 06:38:18 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/14 17:43:28 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
+
+void	take_time(t_philosoph *philo, int time)
+{
+	long long	start;
+	long long	current;
+
+	start = look_at_the_time(&philo->start) / 1000;
+	current = start;
+	while (current < start + time && !is_starving(philo))
+	{
+		usleep(1000);
+		current = look_at_the_time(&philo->start) / 1000;
+	}
+}
 
 int	ft_atoi(const char *nptr, int *result)
 {
@@ -28,10 +42,10 @@ int	ft_atoi(const char *nptr, int *result)
 	while (*nptr >= '0' && *nptr <= '9')
 	{
 		digit = *nptr - '0';
-        if (sign == 1 && (*result > (INT_MAX - digit) / 10))
-            return (-1);
-        if (sign == -1 && (*result < (INT_MIN + digit) / 10))
-            return (-1);
+		if (sign == 1 && (*result > (INT_MAX - digit) / 10))
+			return (-1);
+		if (sign == -1 && (*result < (INT_MIN + digit) / 10))
+			return (-1);
 		*result = *result * 10 + sign * digit;
 		nptr++;
 	}
@@ -41,24 +55,21 @@ int	ft_atoi(const char *nptr, int *result)
 void	speak_poetry(char *poem, t_philosoph *philo)
 {
 	long long		instant;
+	int				color;
 
-	if (is_starving(philo))
-		return ;
+	color = philo->id + 30;
 	sem_wait(philo->speak);
+	if (is_starving(philo))
+	{
+		sem_post(philo->speak);
+		return ;
+	}
 	instant = look_at_the_time(&philo->start) / 1000;
-	if (philo->id % 5 == 0)
-		printf("\033[31m %04lld %3d %s\033[0m\n", instant, philo->id, poem);
-	else if (philo->id % 5 == 1)                 
-		printf("\033[32m %04lld %3d %s\033[0m\n", instant, philo->id, poem);
-	else if (philo->id % 5 == 2)                 
-		printf("\033[33m %04lld %3d %s\033[0m\n", instant, philo->id, poem);
-	else if (philo->id % 5 == 3)                 
-		printf("\033[34m %04lld %3d %s\033[0m\n", instant, philo->id, poem);
-	else if (philo->id % 5 == 4)                 
-		printf("\033[35m %04lld %3d %s\033[0m\n", instant, philo->id, poem);
+	printf("\033[%dm %04lld %3d %s\033[0m\n", color, instant, philo->id, poem);
 	sem_post(philo->speak);
 }
 
+// return time spend from start in usec (usec * 1000 = ms)
 long long	look_at_the_time(struct timeval *start)
 {
 	struct timeval	current_time;

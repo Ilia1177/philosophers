@@ -6,12 +6,26 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:29:55 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/13 22:02:50 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/14 17:38:59 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 #include <limits.h>
+
+void	take_time(t_philosoph *philo, int time)
+{
+	long long	start;
+	long long	current;
+
+	start = look_at_the_time(philo->start) / 1000;
+	current = start;
+	while (current < start + time && !is_starving(philo))
+	{
+		usleep(1000);
+		current = look_at_the_time(philo->start) / 1000;
+	}
+}
 
 long long	look_at_the_time(struct timeval *start)
 {
@@ -29,7 +43,9 @@ void	speak_poetry(char *poem, t_philosoph *philo)
 {
 	struct timeval	*start;
 	long long		instant;
+	int				color;
 
+	color = philo->id + 30;
 	start = philo->start;
 	pthread_mutex_lock(philo->order);
 	if (is_starving(philo))
@@ -38,16 +54,7 @@ void	speak_poetry(char *poem, t_philosoph *philo)
 		return ;
 	}
 	instant = look_at_the_time(start) / 1000;
-	if (philo->id % 5 == 0)
-		printf("\033[31m %04lld %3d %s\033[0m\n", instant, philo->id, poem);
-	else if (philo->id % 5 == 1)
-		printf("\033[32m %04lld %3d %s\033[0m\n", instant, philo->id, poem);
-	else if (philo->id % 5 == 2)
-		printf("\033[33m %04lld %3d %s\033[0m\n", instant, philo->id, poem);
-	else if (philo->id % 5 == 3)
-		printf("\033[34m %04lld %3d %s\033[0m\n", instant, philo->id, poem);
-	else if (philo->id % 5 == 4)
-		printf("\033[35m %04lld %3d %s\033[0m\n", instant, philo->id, poem);
+	printf("\033[%dm %04lld %3d %s\033[0m\n", color, instant, philo->id, poem);
 	pthread_mutex_unlock(philo->order);
 }
 

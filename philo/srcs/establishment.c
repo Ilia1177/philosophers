@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/13 22:25:51 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/14 16:02:27 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	put_chairs_in_place(t_restaurant *inn)
 
 void	welcome_customer(t_restaurant *inn, int id)
 {
-	pthread_mutex_init(&inn->philo[id].coffin, NULL);
-	pthread_mutex_init(&inn->philo[id].watch, NULL);
-	pthread_mutex_init(&inn->philo[id].silverware, NULL);
-	pthread_mutex_init(&inn->philo[id].stomach, NULL);
+	inn->philo[id].coffin = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER; 
+	inn->philo[id].watch = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	inn->philo[id].silverware = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	inn->philo[id].stomach = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	inn->philo[id].order = &inn->order;
 	inn->philo[id].dead = 0;
 	inn->philo[id].full = 0;
@@ -55,7 +55,7 @@ void	welcome_customer(t_restaurant *inn, int id)
 int	open_restaurant(t_restaurant *inn, int argc, char **argv)
 {
 	gettimeofday(&inn->start, NULL);
-	pthread_mutex_init(&inn->order, NULL);
+	inn->order = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER; 
 	if (ft_atoi(argv[1], &inn->guest_nb) == -1)
 		return (-1);
 	if (ft_atoi(argv[2], &inn->time_to_die) == -1)

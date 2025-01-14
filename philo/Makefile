@@ -6,7 +6,7 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2025/01/13 21:40:07 by ilia             ###   ########.fr        #
+#    Updated: 2025/01/14 17:35:44 by npolack          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = bin/philo
 SRCS_DIR	= srcs
 OBJS_DIR	= objs
 CC			= cc
-C_FLAGS		= -Wall -Wextra -Werror -g -fsanitize=thread #-L../../../LeakSanitizer/ -llsan
+C_FLAGS		= -Wall -Wextra -Werror -g
 
 SRCS		= fork.c\
 			  philo.c\
@@ -28,6 +28,9 @@ SRCS		:= $(addprefix $(SRCS_DIR)/, $(SRCS))
 OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 all				: $(NAME) 
+
+san         : C_FLAGS += -fsanitize=thread
+san         : $(NAME)
 
 $(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c 
 	@mkdir -p $(OBJS_DIR)

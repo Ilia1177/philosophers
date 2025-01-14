@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:13:00 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/13 23:37:24 by ilia             ###   ########.fr       */
+/*   Updated: 2025/01/14 15:14:32 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ void	*wait_for_dead(void *philosopher)
 
 	philo = philosopher;
 	sem_wait(philo->one_dead);
+	sem_wait(philo->speak);
 	sem_post(philo->one_dead);
 	sem_post(philo->one_dead);
 	sem_wait(philo->starvation);
 	philo->dead = 1;
 	sem_post(philo->starvation);
 	sem_post(philo->one_full);
+	sem_post(philo->speak);
 	return (NULL);
 }
 
