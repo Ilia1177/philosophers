@@ -6,7 +6,7 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2025/01/14 17:35:35 by npolack          ###   ########.fr        #
+#    Updated: 2025/01/15 14:43:01 by npolack          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ endif
 
 SRCS_DIR	= srcs
 OBJS_DIR	= objs
-C_FLAGS		= -Wall -Wextra -Werror -g 
+C_FLAGS		= -Wall -Wextra -Werror -g -pthread 
 
 SRCS		=	philo.c\
 				common.c\

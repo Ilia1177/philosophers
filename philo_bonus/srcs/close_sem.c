@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:24:01 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/14 12:59:15 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/15 13:50:33 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,6 @@ int	main(int argc, char **argv)
 {
 	int		i;
 	char	sem_name[3];
-
-	if (sem_unlink("/silverware") == -1)
-		perror("silverware");
-	if (sem_unlink("/speaker") == -1)
-		perror("speaker");
-	if (sem_unlink("/death") == -1)
-		perror("death");
-	if (sem_unlink("/full") == -1)
-		perror("full");
 	i = 0;
 	while (i < atoi(argv[1]))
 	{

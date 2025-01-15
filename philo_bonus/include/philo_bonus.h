@@ -6,14 +6,13 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 16:43:24 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/14 12:17:21 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/15 17:57:46 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 # include <unistd.h>
-# include <pthread.h>
 # include <stdio.h>
 # include <semaphore.h>
 # include <limits.h>
@@ -28,8 +27,9 @@
 
 typedef	struct s_philosoph
 {
-	char			sem_name[3];
+	char			sem_name[6];
 	sem_t			*starvation;
+	sem_t			*stomach;
 	sem_t			*forks;
 	sem_t			*speak;
 	sem_t			*one_dead;
@@ -63,8 +63,10 @@ typedef struct s_restaurant
 	int				max_meal;
 }	t_restaurant;
 
+int			light_on_sem(t_philosoph *philo, int id);
+void		unlink_sem(void);
 void		take_time(t_philosoph *philo, int time);
-int	is_starving(t_philosoph *philo);
+int			is_starving(t_philosoph *philo);
 void		eat(t_philosoph *philo);
 void		start_thinking(t_philosoph *philo);
 void		take_a_nap(t_philosoph *philo);

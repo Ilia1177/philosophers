@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 01:33:07 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/14 15:02:26 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/15 17:39:05 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,17 @@ int	customer_process(t_philosoph *philo)
 {
 	if (is_having_diner(philo) == -1)
 		return (-1);
+	sem_unlink(philo->sem_name);
+	return (0);
+}
+
+void	close_customer_sem(t_philosoph *philo)
+{
 	sem_close(philo->starvation);
 	sem_close(philo->forks);
 	sem_close(philo->speak);
 	sem_close(philo->one_dead);
-	sem_unlink(philo->sem_name);
-	return (0);
+	sem_close(philo->one_full);
 }
 
 int	welcome_customers(t_restaurant *inn)
@@ -54,18 +59,15 @@ int	welcome_customers(t_restaurant *inn)
 	while (i < inn->guest_nb)
 	{
 		philo.pid = fork();
-		if (!philo.pid)
+		if (philo.pid == 0)
 		{
 			philo = new_customer(inn, i + 1);
 			if (philo.id == -1)
-				return (-1);
+				return (emergency_exit(inn, "fail making customers\n"));
 			if (customer_process(&philo) == -1)
-				return (emergency_exit(NULL, "child fail\n"));
-			sem_close(philo.starvation);
-			sem_close(philo.forks);
-			sem_close(philo.speak);
-			sem_close(philo.one_dead);
-			sem_close(philo.one_full);
+				return (emergency_exit(inn, "child fail\n"));
+			close_customer_sem(&philo);
+			//sem_post(inn->speak);
 			exit(0);
 		}
 		else if (philo.pid > 0)
@@ -77,6 +79,46 @@ int	welcome_customers(t_restaurant *inn)
 	pthread_join(waiter, NULL);
 	while (waitpid(-1, NULL, 0) > 0)
 		;
+	return (0);
+}
+
+sem_t	*call_lighthouse_name(t_philosoph *philo, int id)
+{
+	sem_t	*lighthouse;
+	int		i;
+	int		divisor;
+	char	digit;
+
+	philo->sem_name[0] = '/';
+	philo->sem_name[1] = 'S';
+	i = 2;
+	divisor = 100;
+	while (divisor > 0)
+	{
+		digit = (id / divisor) % 10;
+		digit += '0';
+		philo->sem_name[i++] = digit;
+		divisor /= 10;
+	}
+	philo->sem_name[5] = '\0';
+	sem_unlink(philo->sem_name);
+	lighthouse = sem_open(philo->sem_name, O_CREAT | O_EXCL, 0644, 1);
+	return (lighthouse);
+}
+
+int	light_on_sem(t_philosoph *philo, int id)
+{
+	philo->forks = sem_open("/silverware", 0);
+	philo->speak = sem_open("/speaker", 0);
+	philo->one_dead = sem_open("/death", 0);
+	philo->one_full = sem_open("/full", 0);
+	philo->starvation = call_lighthouse_name(philo, id);
+	if (philo->starvation == SEM_FAILED || philo->forks == SEM_FAILED)
+		return (-1);
+	if (philo->one_dead == SEM_FAILED || philo->one_full == SEM_FAILED)
+		return (-1);
+	if (philo->speak == SEM_FAILED)
+		return (-1);
 	return (0);
 }
 
@@ -92,15 +134,9 @@ t_philosoph	new_customer(t_restaurant *inn, int id)
 	philo.time_to_eat = inn->time_to_eat;
 	philo.time_to_die = inn->time_to_die;
 	gettimeofday(&philo.last_meal, NULL);
-	gettimeofday(&philo.start, NULL);
-	philo.sem_name[0] = '/';
-	philo.sem_name[1] = '\001' + id - 1;
-	philo.sem_name[2] = '\0';
-	philo.forks = sem_open("/silverware", 0);
-	philo.speak = sem_open("/speaker", 0);
-	philo.one_dead = sem_open("/death", 0);
-	philo.one_full = sem_open("/full", 0);
-	philo.starvation = sem_open(philo.sem_name, O_CREAT | O_EXCL, 0644, 1);
+	philo.start = inn->start;
+	if (light_on_sem(&philo, id))
+		philo.id = -1;
 	sem_post(philo.forks);
 	return (philo);
 }

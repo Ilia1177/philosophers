@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:25:34 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/14 17:45:01 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/15 17:57:06 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	is_dead(t_philosoph *philo)
 	if (from_last_meal > philo->time_to_die * 1000)
 	{
 		speak_poetry("died", philo);
+		sem_wait(philo->speak);
 		sem_post(philo->one_dead);
 		return (1);
 	}

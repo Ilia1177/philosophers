@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:27:32 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/14 14:40:17 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/15 17:44:35 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,7 @@ void	eat(t_philosoph *philo)
 	if (philo->max_meal > 0)
 		philo->max_meal--;
 	if (philo->max_meal == 0)
-	{
 		sem_post(philo->one_full);
-		philo->max_meal = -1;
-	}
 	gettimeofday(&philo->last_meal, NULL);
 	take_time(philo, philo->time_to_eat);
 	sem_post(philo->forks);
