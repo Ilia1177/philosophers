@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 01:33:07 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/15 17:39:05 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/16 14:22:01 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_having_diner(t_philosoph *philo)
 		return (-1);
 	if (pthread_create(&killer, NULL, &murder, philo) == -1)
 		return (-1);
-	if (pthread_create(&leave, NULL, &wait_for_dead, philo) == -1)
+	if (pthread_create(&leave, NULL, &kill_everyone_and_leave, philo) == -1)
 		return (-1);
 	if (pthread_join(philo->itself, NULL) == -1)
 		return (-1);
@@ -49,11 +49,13 @@ void	close_customer_sem(t_philosoph *philo)
 	sem_close(philo->one_full);
 }
 
+
 int	welcome_customers(t_restaurant *inn)
 {
 	int			i;
 	t_philosoph	philo;
 	pthread_t	waiter;
+	pthread_t	security;
 
 	i = 0;
 	while (i < inn->guest_nb)
@@ -67,15 +69,17 @@ int	welcome_customers(t_restaurant *inn)
 			if (customer_process(&philo) == -1)
 				return (emergency_exit(inn, "child fail\n"));
 			close_customer_sem(&philo);
-			//sem_post(inn->speak);
 			exit(0);
 		}
 		else if (philo.pid > 0)
 			i++;
 		else
 			return (emergency_exit(inn, "error fork"));
+		usleep(1000);dd
 	}
 	pthread_create(&waiter, NULL, &wait_for_full, inn);
+	pthread_create(&security, NULL, &wait_for_all_dead, inn);
+	pthread_join(security, NULL);
 	pthread_join(waiter, NULL);
 	while (waitpid(-1, NULL, 0) > 0)
 		;
@@ -112,12 +116,13 @@ int	light_on_sem(t_philosoph *philo, int id)
 	philo->speak = sem_open("/speaker", 0);
 	philo->one_dead = sem_open("/death", 0);
 	philo->one_full = sem_open("/full", 0);
+	philo->quit = sem_open("/quit", 0);
 	philo->starvation = call_lighthouse_name(philo, id);
 	if (philo->starvation == SEM_FAILED || philo->forks == SEM_FAILED)
 		return (-1);
 	if (philo->one_dead == SEM_FAILED || philo->one_full == SEM_FAILED)
 		return (-1);
-	if (philo->speak == SEM_FAILED)
+	if (philo->speak == SEM_FAILED || philo->quit == SEM_FAILED)
 		return (-1);
 	return (0);
 }
@@ -126,7 +131,6 @@ t_philosoph	new_customer(t_restaurant *inn, int id)
 {
 	t_philosoph	philo;
 
-	philo.full = 0;
 	philo.dead = 0;
 	philo.max_meal = inn->max_meal;
 	philo.id = id;
@@ -137,6 +141,6 @@ t_philosoph	new_customer(t_restaurant *inn, int id)
 	philo.start = inn->start;
 	if (light_on_sem(&philo, id))
 		philo.id = -1;
-	sem_post(philo.forks);
+	//sem_post(philo.forks);
 	return (philo);
 }

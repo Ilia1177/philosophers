@@ -6,7 +6,7 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2025/01/15 14:51:02 by npolack          ###   ########.fr        #
+#    Updated: 2025/01/16 13:28:41 by npolack          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = bin/philo
 SRCS_DIR	= srcs
 OBJS_DIR	= objs
 CC			= cc
-C_FLAGS		= -Wall -Wextra -Werror -g -pthread
+C_FLAGS		= -Wall -Wextra -Werror 
 
 SRCS		= fork.c\
 			  philo.c\
@@ -29,7 +29,10 @@ OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 all				: $(NAME) 
 
-san         : C_FLAGS += -fsanitize=thread
+thread		: C_FLAGS += -g -pthread
+thread		: re
+
+san         : C_FLAGS += -g -fsanitize=thread
 san         : $(NAME)
 
 $(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c 

@@ -6,7 +6,7 @@
 #    By: npolack <npolack@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 11:22:57 by npolack           #+#    #+#              #
-#    Updated: 2025/01/15 14:43:01 by npolack          ###   ########.fr        #
+#    Updated: 2025/01/16 09:03:42 by npolack          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ endif
 
 SRCS_DIR	= srcs
 OBJS_DIR	= objs
-C_FLAGS		= -Wall -Wextra -Werror -g -pthread 
+C_FLAGS		= -Wall -Wextra -Werror 
 
 SRCS		=	philo.c\
 				common.c\
@@ -43,8 +43,11 @@ $(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
 	$(CC) $(C_FLAGS) -c $< -o $@
 
-san         : C_FLAGS += -fsanitize=thread
-san         : $(NAME)
+thread		: C_FLAGS += -g -pthread
+thread		: re
+
+san         : C_FLAGS += -g -fsanitize=thread
+san         : re
 
 $(NAME)			: $(OBJS)
 	@mkdir -p bin

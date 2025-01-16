@@ -6,11 +6,22 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:25:34 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/15 17:57:06 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/16 11:33:47 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
+
+/*int	is_full(t_philosoph *philo)
+{
+	int	full_stomach;
+
+	sem_wait(philo->stomach);
+	full_stomach = (philo->max_meal <= 0);
+	sem_post(philo->stomach);
+	return (full_stomach);
+}
+*/
 
 int	is_starving(t_philosoph *philo)
 {
@@ -32,8 +43,6 @@ int	is_dead(t_philosoph *philo)
 	if (from_last_meal > philo->time_to_die * 1000)
 	{
 		speak_poetry("died", philo);
-		sem_wait(philo->speak);
-		sem_post(philo->one_dead);
 		return (1);
 	}
 	return (0);

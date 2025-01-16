@@ -1,0 +1,68 @@
+[32m 0000   2 has taken a fork[0m
+[32m 0000   2 has taken a fork[0m
+[32m 0000   2 is eating[0m
+[32m 0005   2 is sleeping[0m
+[32m 0011   2 is thinking[0m
+[32m 0011   2 has taken a fork[0m
+[32m 0011   2 has taken a fork[0m
+[32m 0011   2 is eating[0m
+[32m 0016   2 is sleeping[0m
+[32m 0021   2 is thinking[0m
+[32m 0021   2 has taken a fork[0m
+[32m 0025   2 has taken a fork[0m
+[32m 0025   2 is eating[0m
+[32m 0030   2 is sleeping[0m
+[35m 0005   5 has taken a fork[0m
+[35m 0015   5 has taken a fork[0m
+[35m 0015   5 is eating[0m
+[35m 0020   5 is sleeping[0m
+[35m 0025   5 is thinking[0m
+[35m 0025   5 has taken a fork[0m
+[35m 0027   5 has taken a fork[0m
+[35m 0027   5 is eating[0m
+[35m 0032   5 is sleeping[0m
+[34m 0005   4 has taken a fork[0m
+[34m 0005   4 has taken a fork[0m
+[34m 0005   4 is eating[0m
+[34m 0011   4 is sleeping[0m
+[34m 0016   4 is thinking[0m
+[34m 0016   4 has taken a fork[0m
+[34m 0020   4 has taken a fork[0m
+[34m 0020   4 is eating[0m
+[34m 0025   4 is sleeping[0m
+[34m 0030   4 is thinking[0m
+[34m 0030   4 has taken a fork[0m
+[34m 0032   4 has taken a fork[0m
+[34m 0032   4 is eating[0m
+[33m 0000   3 has taken a fork[0m
+[33m 0005   3 has taken a fork[0m
+[33m 0005   3 is eating[0m
+[33m 0010   3 is sleeping[0m
+[33m 0015   3 is thinking[0m
+[33m 0015   3 has taken a fork[0m
+[33m 0016   3 has taken a fork[0m
+[33m 0016   3 is eating[0m
+[33m 0021   3 is sleeping[0m
+[33m 0027   3 is thinking[0m
+[33m 0027   3 has taken a fork[0m
+[33m 0030   3 has taken a fork[0m
+[33m 0030   3 is eating[0m
+[33m 0035   3 is sleeping[0m
+[31m 0000   1 has taken a fork[0m
+[31m 0000   1 has taken a fork[0m
+[31m 0000   1 is eating[0m
+[31m 0005   1 is sleeping[0m
+[31m 0010   1 is thinking[0m
+[31m 0010   1 has taken a fork[0m
+[31m 0010   1 has taken a fork[0m
+[31m 0010   1 is eating[0m
+[31m 0015   1 is sleeping[0m
+[31m 0020   1 is thinking[0m
+[31m 0020   1 has taken a fork[0m
+[31m 0021   1 has taken a fork[0m
+[31m 0021   1 is eating[0m
+[31m 0027   1 is sleeping[0m
+[31m 0032   1 is thinking[0m
+[31m 0032   1 has taken a fork[0m
+[31m 0035   1 has taken a fork[0m
+[31m 0035   1 is eating[0m

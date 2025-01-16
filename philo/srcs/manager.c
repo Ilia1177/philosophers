@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:25:34 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/14 17:25:30 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/16 14:01:31 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	all_alive(t_restaurant *inn)
 
 	i = -1;
 	while (++i < inn->guest_nb)
-		if (is_dead(&inn->philo[i])) 
+		if (is_dead(&inn->philo[i]))
 			return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:22:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/14 15:52:58 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/16 13:32:17 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -90,6 +90,6 @@ int			put_chairs_in_place(t_restaurant *inn);
 void		welcome_customer(t_restaurant *inn, int id);
 int			open_restaurant(t_restaurant *inn, int argc, char **argv);
 int			dress_a_table(t_restaurant *inn);
-int			close_establishment(t_restaurant *inn);
+int			close_establishment(t_restaurant *inn, int guest_nb, int emergency);
 
 #endif

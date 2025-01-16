@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 16:43:24 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/15 17:57:46 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/16 11:10:10 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,15 @@
 
 typedef	struct s_philosoph
 {
-	char			sem_name[6];
 	sem_t			*starvation;
-	sem_t			*stomach;
+	sem_t			*quit;
 	sem_t			*forks;
 	sem_t			*speak;
 	sem_t			*one_dead;
 	sem_t			*one_full;
-	int				dead;
-	int				full;
 	pthread_t		itself;
+	char			sem_name[6];
+	int				dead;
 	int				id;
 	pid_t			pid;
 	int				time_to_sleep;
@@ -53,8 +52,8 @@ typedef struct s_restaurant
 	sem_t			*one_dead;
 	sem_t			*forks;
 	sem_t			*speak;
+	sem_t			*quit;
 	t_philosoph		*philo;
-	pthread_t		manager;
 	struct timeval	start;
 	int				time_to_sleep;
 	int				time_to_eat;
@@ -63,6 +62,7 @@ typedef struct s_restaurant
 	int				max_meal;
 }	t_restaurant;
 
+void		*wait_for_all_dead(void *restaurant);
 int			light_on_sem(t_philosoph *philo, int id);
 void		unlink_sem(void);
 void		take_time(t_philosoph *philo, int time);
@@ -71,7 +71,7 @@ void		eat(t_philosoph *philo);
 void		start_thinking(t_philosoph *philo);
 void		take_a_nap(t_philosoph *philo);
 void		*murder(void *philosopher);
-void		*wait_for_dead(void *philosopher);
+void		*kill_everyone_and_leave(void *philosopher);
 void		*wait_for_full(void *inn);
 int			ft_atoi(const char *nptr, int *result);
 void		speak_poetry(char *poem, t_philosoph *philo);

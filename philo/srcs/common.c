@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:29:55 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/14 17:38:59 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/16 11:39:26 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	speak_poetry(char *poem, t_philosoph *philo)
 		return ;
 	}
 	instant = look_at_the_time(start) / 1000;
-	printf("\033[%dm %04lld %3d %s\033[0m\n", color, instant, philo->id, poem);
+	printf("\033[%dm%04lld %3d %s\033[0m\n", color, instant, philo->id, poem);
 	pthread_mutex_unlock(philo->order);
 }
 

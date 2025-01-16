@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:15:52 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/14 15:15:44 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/16 14:00:00 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int	emergency_exit(t_restaurant *inn, char *message)
 
 	usage = "usage : <philo_nb> <t_die> <t_eat> <t_sleep> [max_meal]\n";
 	if (inn)
+	{
+		free(inn->philo);
 		pthread_mutex_destroy(&inn->order);
+	}
 	if (!message)
 		printf("%s", usage);
 	else
@@ -51,16 +54,19 @@ int	main(int argc, char **argv)
 	t_restaurant	inn;
 	int				i;
 
+	inn.philo = NULL;
 	if (argc < 5 || argc > 6 || communication(argc, argv) == -1)
 		return (emergency_exit(NULL, NULL));
 	if (open_restaurant(&inn, argc, argv) == -1)
 		return (emergency_exit(&inn, "Restaurant only accept positive int\n"));
-	pthread_create(&inn.table, NULL, &manage_customers, &inn);
-	dress_a_table(&inn);
+	if (dress_a_table(&inn) == -1)
+		return (emergency_exit(&inn, "fail making philo\n"));
 	i = -1;
 	while (++i < inn.guest_nb)
 		pthread_join(inn.philo[i].itself, NULL);
 	pthread_join(inn.table, NULL);
-	close_establishment(&inn);
+	pthread_mutex_destroy(&inn.order);
+	close_establishment(&inn, 0, 0);
+	free(inn.philo);
 	return (0);
 }

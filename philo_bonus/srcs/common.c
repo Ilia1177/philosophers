@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 16:51:45 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/15 17:10:12 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/16 14:06:55 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,23 @@ int	ft_atoi(const char *nptr, int *result)
 	return (0);
 }
 
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	int	result;
+	int	i;
+
+	i = 0;
+	result = 0;
+	while ((s1[i] != '\0' || s2[i] != '\0'))
+	{
+		result += ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		if (result != 0)
+			return (result);
+		i++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
 void	speak_poetry(char *poem, t_philosoph *philo)
 {
 	long long		instant;
@@ -65,8 +82,11 @@ void	speak_poetry(char *poem, t_philosoph *philo)
 		return ;
 	}
 	instant = look_at_the_time(&philo->start) / 1000;
-	printf("\033[%dm %04lld %3d %s\033[0m\n", color, instant, philo->id, poem);
-	sem_post(philo->speak);
+	printf("\033[%dm%04lld %3d %s\033[0m\n", color, instant, philo->id, poem);
+	if (!ft_strcmp(poem, "died"))
+		sem_post(philo->quit);
+	else
+		sem_post(philo->speak);
 }
 
 // return time spend from start in usec (usec * 1000 = ms)

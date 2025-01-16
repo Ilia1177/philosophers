@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/14 16:02:27 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/16 13:54:32 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	open_restaurant(t_restaurant *inn, int argc, char **argv)
 	inn->order = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER; 
 	if (ft_atoi(argv[1], &inn->guest_nb) == -1)
 		return (-1);
+	printf("!!GUEST NB == %d\n", inn->guest_nb);
 	if (ft_atoi(argv[2], &inn->time_to_die) == -1)
 		return (-1);
 	if (ft_atoi(argv[3], &inn->time_to_eat) == -1)
@@ -79,27 +80,38 @@ int	open_restaurant(t_restaurant *inn, int argc, char **argv)
 int	dress_a_table(t_restaurant *inn)
 {
 	int			i;
+	pthread_t	*philo;
 
+	if (pthread_create(&inn->table, NULL, &manage_customers, inn) == -1)
+		return (close_establishment(inn, 0, 0));
 	i = -1;
 	while (++i < inn->guest_nb)
-		pthread_create(&inn->philo[i].itself, NULL, &live, &inn->philo[i]);
+	{
+		usleep(500);
+		philo = &inn->philo[i].itself;
+		if (pthread_create(philo, NULL, &live, &inn->philo[i]) == -1)
+			return (close_establishment(inn, i, 1));
+	}
 	return (1);
 }
 
-int	close_establishment(t_restaurant *inn)
+int	close_establishment(t_restaurant *inn, int i, int emergency)
 {
-	int	i;
+	int	j;
 
-	i = 0;
-	while (i < inn->guest_nb)
+	if (emergency)
 	{
-		pthread_mutex_destroy(&inn->philo[i].coffin);
-		pthread_mutex_destroy(&inn->philo[i].stomach);
-		pthread_mutex_destroy(&inn->philo[i].silverware);
-		pthread_mutex_destroy(&inn->philo[i].watch);
-		i++;
+		kill_everyone(inn);
+		while (--i >= 0)
+			pthread_join(inn->philo[i].itself, NULL);
 	}
-	free(inn->philo);
-	pthread_mutex_destroy(&inn->order);
-	return (0);
+	j = -1;
+	while (++j < inn->guest_nb)
+	{
+		pthread_mutex_destroy(&inn->philo[j].coffin);
+		pthread_mutex_destroy(&inn->philo[j].stomach);
+		pthread_mutex_destroy(&inn->philo[j].silverware);
+		pthread_mutex_destroy(&inn->philo[j].watch);
+	}
+	return (-1);
 }

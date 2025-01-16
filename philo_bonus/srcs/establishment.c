@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/15 13:54:31 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/16 14:05:46 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ void	unlink_sem(void)
 	sem_unlink("/speaker");
 	sem_unlink("/death");
 	sem_unlink("/full");
+	sem_unlink("/quit");
 }
 
 int	make_sem(t_restaurant *inn)
 {
 	unlink_sem();
-	inn->forks = sem_open("/silverware", O_CREAT | O_EXCL, 0644, 0);
+	inn->forks = sem_open("/silverware", O_CREAT | O_EXCL, 0644, inn->guest_nb);
 	if (inn->forks == SEM_FAILED)
 		return (emergency_exit(inn, "sem_open failed\n"));
 	inn->speak = sem_open("/speaker", O_CREAT | O_EXCL, 0644, 1);
@@ -35,6 +36,10 @@ int	make_sem(t_restaurant *inn)
 	inn->one_full = sem_open("/full", O_CREAT | O_EXCL, 0644, 0);
 	if (inn->one_full == SEM_FAILED)
 		return (emergency_exit(inn, "sem_open failed\n"));
+	inn->quit = sem_open("/quit", O_CREAT | O_EXCL, 0644, 0);
+	if (inn->quit == SEM_FAILED)
+		return (emergency_exit(inn, "sem_open failed\n"));
+
 	return (1);
 }
 
@@ -65,6 +70,7 @@ int	close_establishment(t_restaurant *inn)
 	sem_close(inn->speak);
 	sem_close(inn->one_dead);
 	sem_close(inn->one_full);
+	sem_close(inn->quit);
 	unlink_sem();
 	return (0);
 }
