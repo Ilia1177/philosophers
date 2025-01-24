@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/16 13:54:32 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/24 15:30:45 by ilia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ int	dress_a_table(t_restaurant *inn)
 	i = -1;
 	while (++i < inn->guest_nb)
 	{
-		usleep(500);
 		philo = &inn->philo[i].itself;
 		if (pthread_create(philo, NULL, &live, &inn->philo[i]) == -1)
 			return (close_establishment(inn, i, 1));
+		usleep(1000);
 	}
 	return (1);
 }
