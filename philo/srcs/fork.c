@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:34:22 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/26 14:35:59 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 19:04:09 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ int	take_forks(t_philosoph *philo)
 	else
 	{
 		if (take_next_fork_first(philo))
-		//if (take_own_fork_first(philo))
 			return (1);
-		else 
+		else
 			return (0);
 	}
 	return (1);
@@ -56,7 +55,6 @@ static int	take_own_fork_first(t_philosoph *philo)
 	speak_poetry("has taken a fork", philo);
 	return (1);
 }
-
 
 static int	take_next_fork_first(t_philosoph *philo)
 {

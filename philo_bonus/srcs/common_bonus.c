@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   common.c                                           :+:      :+:    :+:   */
+/*   common_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 16:51:45 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/16 14:06:55 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 18:52:46 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	take_time(t_philosoph *philo, int time)
 	current = start;
 	while (current < start + time && !is_starving(philo))
 	{
-		usleep(1000);
+		usleep(50);
 		current = look_at_the_time(&philo->start) / 1000;
 	}
 }

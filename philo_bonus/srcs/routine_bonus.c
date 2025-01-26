@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   routine_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:27:32 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/16 09:08:36 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 17:18:47 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,13 @@ void	eat(t_philosoph *philo)
 	if (philo->max_meal > 0)
 		philo->max_meal--;
 	if (philo->max_meal == 0)
+	{
 		sem_post(philo->one_full);
+		philo->max_meal = -1;
+	}
+	sem_wait(philo->stomach);
 	gettimeofday(&philo->last_meal, NULL);
+	sem_post(philo->stomach);
 	take_time(philo, philo->time_to_eat);
 	sem_post(philo->forks);
 	sem_post(philo->forks);

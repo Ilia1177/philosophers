@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   job.c                                              :+:      :+:    :+:   */
+/*   job_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:13:00 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/16 11:12:21 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 19:02:06 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,7 @@ void	*wait_for_full(void *restaurant)
 	inn = restaurant;
 	i = -1;
 	while (++i < inn->guest_nb)
-	{
-		sem_post(inn->speak);
 		sem_wait(inn->one_full);
-		sem_wait(inn->speak);
-	}
 	sem_post(inn->quit);
 	return (NULL);
 }
@@ -78,6 +74,7 @@ void	*wait_for_all_dead(void *restaurant)
 	i = -1;
 	while (++i < inn->guest_nb)
 		sem_post(inn->one_full);
+	usleep(500000);
 	sem_post(inn->speak);
 	sem_post(inn->speak);
 	return (NULL);

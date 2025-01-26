@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/26 15:25:31 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 19:03:46 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ int	dress_a_table(t_restaurant *inn)
 		usleep(500);
 	}
 	manage_customers(inn);
-	/* if (pthread_create(&inn->table, NULL, &manage_customers, inn) == -1) */
-	/* 	return (close_establishment(inn, 0, 0)); */
 	return (1);
 }
 

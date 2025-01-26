@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 16:43:24 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/16 11:10:10 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 18:22:55 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,18 @@
 # include <signal.h>
 # include <string.h>
 
-typedef	struct s_philosoph
+typedef struct s_philosoph
 {
 	sem_t			*starvation;
+	sem_t			*stomach;
 	sem_t			*quit;
 	sem_t			*forks;
 	sem_t			*speak;
 	sem_t			*one_dead;
 	sem_t			*one_full;
 	pthread_t		itself;
-	char			sem_name[6];
+	char			stom_n[7];
+	char			starv_n[7];
 	int				dead;
 	int				id;
 	pid_t			pid;
@@ -54,6 +56,8 @@ typedef struct s_restaurant
 	sem_t			*speak;
 	sem_t			*quit;
 	t_philosoph		*philo;
+	pthread_t		waiter;
+	pthread_t		security;
 	struct timeval	start;
 	int				time_to_sleep;
 	int				time_to_eat;
@@ -62,6 +66,10 @@ typedef struct s_restaurant
 	int				max_meal;
 }	t_restaurant;
 
+sem_t		*call_lighthouse_name(char *name, int c, int id);
+int			light_on_sem(t_philosoph *philo, int id);
+void		wait_everybody(t_restaurant *inn);
+int			get_staff_ready(t_restaurant *inn);
 void		*wait_for_all_dead(void *restaurant);
 int			light_on_sem(t_philosoph *philo, int id);
 void		unlink_sem(void);

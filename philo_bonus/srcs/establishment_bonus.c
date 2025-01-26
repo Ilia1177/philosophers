@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   establishment.c                                    :+:      :+:    :+:   */
+/*   establishment_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/16 14:05:46 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 18:20:02 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	make_sem(t_restaurant *inn)
 	inn->quit = sem_open("/quit", O_CREAT | O_EXCL, 0644, 0);
 	if (inn->quit == SEM_FAILED)
 		return (emergency_exit(inn, "sem_open failed\n"));
-
 	return (1);
 }
 
@@ -72,5 +71,25 @@ int	close_establishment(t_restaurant *inn)
 	sem_close(inn->one_full);
 	sem_close(inn->quit);
 	unlink_sem();
+	return (0);
+}
+
+int	light_on_sem(t_philosoph *philo, int id)
+{
+	philo->forks = sem_open("/silverware", 0);
+	philo->speak = sem_open("/speaker", 0);
+	philo->one_dead = sem_open("/death", 0);
+	philo->one_full = sem_open("/full", 0);
+	philo->quit = sem_open("/quit", 0);
+	philo->starvation = call_lighthouse_name(philo->starv_n, 'S', id);
+	philo->stomach = call_lighthouse_name(philo->stom_n, 'C', id);
+	if (philo->starvation == SEM_FAILED || philo->forks == SEM_FAILED)
+		return (-1);
+	if (philo->one_dead == SEM_FAILED || philo->one_full == SEM_FAILED)
+		return (-1);
+	if (philo->speak == SEM_FAILED || philo->quit == SEM_FAILED)
+		return (-1);
+	if (philo->stomach == SEM_FAILED)
+		return (-1);
 	return (0);
 }
