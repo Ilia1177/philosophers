@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 23:13:00 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/26 19:02:06 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 19:11:29 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	*wait_for_full(void *restaurant)
 	i = -1;
 	while (++i < inn->guest_nb)
 		sem_wait(inn->one_full);
+	sem_wait(inn->speak);
 	sem_post(inn->quit);
 	return (NULL);
 }
