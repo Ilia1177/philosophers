@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/16 13:54:32 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 15:16:09 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	put_chairs_in_place(t_restaurant *inn)
 
 void	welcome_customer(t_restaurant *inn, int id)
 {
-	inn->philo[id].coffin = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER; 
+	inn->philo[id].coffin = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	inn->philo[id].watch = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	inn->philo[id].silverware = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	inn->philo[id].stomach = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
@@ -55,10 +55,9 @@ void	welcome_customer(t_restaurant *inn, int id)
 int	open_restaurant(t_restaurant *inn, int argc, char **argv)
 {
 	gettimeofday(&inn->start, NULL);
-	inn->order = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER; 
+	inn->order = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	if (ft_atoi(argv[1], &inn->guest_nb) == -1)
 		return (-1);
-	printf("!!GUEST NB == %d\n", inn->guest_nb);
 	if (ft_atoi(argv[2], &inn->time_to_die) == -1)
 		return (-1);
 	if (ft_atoi(argv[3], &inn->time_to_eat) == -1)
@@ -82,16 +81,17 @@ int	dress_a_table(t_restaurant *inn)
 	int			i;
 	pthread_t	*philo;
 
-	if (pthread_create(&inn->table, NULL, &manage_customers, inn) == -1)
-		return (close_establishment(inn, 0, 0));
 	i = -1;
 	while (++i < inn->guest_nb)
 	{
-		usleep(500);
 		philo = &inn->philo[i].itself;
 		if (pthread_create(philo, NULL, &live, &inn->philo[i]) == -1)
 			return (close_establishment(inn, i, 1));
+		//usleep(500);
 	}
+	manage_customers(inn);
+	/* if (pthread_create(&inn->table, NULL, &manage_customers, inn) == -1) */
+	/* 	return (close_establishment(inn, 0, 0)); */
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 01:33:07 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/16 14:22:01 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 15:19:58 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	welcome_customers(t_restaurant *inn)
 			i++;
 		else
 			return (emergency_exit(inn, "error fork"));
-		usleep(1000);dd
+		usleep(1000);
 	}
 	pthread_create(&waiter, NULL, &wait_for_full, inn);
 	pthread_create(&security, NULL, &wait_for_all_dead, inn);

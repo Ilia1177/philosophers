@@ -6,12 +6,19 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:29:55 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/16 11:39:26 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 14:54:05 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-#include <limits.h>
+
+void	digest_meal(t_philosoph *philo)
+{
+	pthread_mutex_lock(&philo->stomach);
+	if (philo->max_meal > 0)
+		philo->max_meal--;
+	pthread_mutex_unlock(&philo->stomach);
+}
 
 void	take_time(t_philosoph *philo, int time)
 {

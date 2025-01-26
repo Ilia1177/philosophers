@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:22:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/16 13:32:17 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 14:55:08 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <limits.h>
 
 // ANSI color codes
 # define COLOR_RESET   "\033[0m"
@@ -64,6 +65,7 @@ typedef struct s_restaurant
 // fork.c
 int			take_forks(t_philosoph *philo);
 // common.c
+void		digest_meal(t_philosoph *philo);
 void		take_time(t_philosoph *philo, int time);
 void		announce(char *message, t_philosoph *philo);
 int			ft_atoi(const char *nptr, int *result);

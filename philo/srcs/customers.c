@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:27:32 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/16 13:27:57 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 14:54:05 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ void	eat(t_philosoph *philo)
 		return ;
 	}
 	speak_poetry("is eating", philo);
-	pthread_mutex_lock(&philo->stomach);
-	if (philo->max_meal > 0)
-		philo->max_meal--;
-	pthread_mutex_unlock(&philo->stomach);
+	digest_meal(philo);
 	pthread_mutex_lock(&philo->watch);
 	gettimeofday(&philo->last_meal, NULL);
 	pthread_mutex_unlock(&philo->watch);

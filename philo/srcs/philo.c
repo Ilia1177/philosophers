@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:15:52 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/16 14:00:00 by npolack          ###   ########.fr       */
+/*   Updated: 2025/01/26 15:14:55 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,11 @@ int	main(int argc, char **argv)
 		return (emergency_exit(&inn, "fail making philo\n"));
 	i = -1;
 	while (++i < inn.guest_nb)
+	{
 		pthread_join(inn.philo[i].itself, NULL);
-	pthread_join(inn.table, NULL);
+
+	}
+	//pthread_join(inn.table, NULL);
 	pthread_mutex_destroy(&inn.order);
 	close_establishment(&inn, 0, 0);
 	free(inn.philo);
