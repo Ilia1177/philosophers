@@ -12,9 +12,8 @@
 
 #include "../include/philo_bonus.h"
 
-int	emergency_exit(t_restaurant *inn, char *message)
+int	emergency_exit(t_restaurant *inn, t_philosoph *philo,  char *message)
 {
-	char	*usage;
 	int		i;
 
 	i = -1;
@@ -30,12 +29,17 @@ int	emergency_exit(t_restaurant *inn, char *message)
 		}
 		close_establishment(inn);
 	}
-	usage = "usage : <philo_nb> <t_die> <t_eat> <t_sleep> [max_meal]\n";
 	if (!message)
-		printf("%s", usage);
+		printf("%s", USAGE);
 	else
 		printf("%s", message);
-	exit(-1);
+	if (philo)
+	{
+		close_customer_sem(philo);
+		sem_unlink(philo->starv_n);
+		sem_unlink(philo->stom_n);
+		exit(-1);
+	}
 	return (-1);
 }
 
@@ -66,15 +70,15 @@ int	main(int argc, char **argv)
 	t_restaurant	inn;
 
 	if (communication(argc, argv) == -1)
-		return (emergency_exit(NULL, NULL));
-	if (open_restaurant(&inn, argc, argv) == -1)
-		return (emergency_exit(NULL, "fail opening restaurant\n"));
-	if (welcome_customers(&inn) == -1)
-		return (emergency_exit(&inn, "Customers has been kicked out\n"));
-	if (get_staff_ready(&inn) == -1)
-		return (emergency_exit(&inn, "Staff is leaving\n"));
+		return (emergency_exit(NULL, NULL, NULL));
+	else if (open_restaurant(&inn, argc, argv) == -1)
+		return (emergency_exit(NULL, NULL, "fail opening restaurant\n"));
+	else if (welcome_customers(&inn) == -1)
+		return (emergency_exit(&inn, NULL, "Customers has been kicked out\n"));
+	else if (get_staff_ready(&inn) == -1)
+		return (emergency_exit(&inn, NULL, "Staff is leaving\n"));
 	wait_everybody(&inn);
-	if (close_establishment(&inn) == -1)
-		return (emergency_exit(&inn, "fail in exit\n"));
+	close_establishment(&inn);
+	unlink_sem();
 	return (0);
 }

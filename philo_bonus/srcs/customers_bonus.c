@@ -17,25 +17,22 @@ int	is_having_diner(t_philosoph *philo)
 	pthread_t	leave;
 	pthread_t	killer;
 
-	if (pthread_create(&philo->itself, NULL, &sit_at_the_table, philo) == -1)
-		return (-1);
-	if (pthread_create(&killer, NULL, &murder, philo) == -1)
-		return (-1);
-	if (pthread_create(&leave, NULL, &kill_everyone_and_leave, philo) == -1)
-		return (-1);
-	if (pthread_join(philo->itself, NULL) == -1)
-		return (-1);
-	if (pthread_join(leave, NULL) == -1)
-		return (-1);
-	if (pthread_join(killer, NULL) == -1)
-		return (-1);
+	if (pthread_create(&philo->itself, NULL, &sit_at_the_table, philo))
+		sem_post(philo->quit);
+	if (pthread_create(&killer, NULL, &murder, philo))
+		sem_post(philo->quit);
+	if (pthread_create(&leave, NULL, &kill_everyone_and_leave, philo))
+		sem_post(philo->quit);
+	pthread_join(philo->itself, NULL);
+	pthread_join(leave, NULL);
+	pthread_join(killer, NULL);
 	return (0);
 }
 
 int	customer_process(t_philosoph *philo)
 {
-	if (is_having_diner(philo) == -1)
-		return (-1);
+	is_having_diner(philo);
+	close_customer_sem(philo);
 	sem_unlink(philo->starv_n);
 	sem_unlink(philo->stom_n);
 	return (0);
@@ -63,17 +60,18 @@ int	welcome_customers(t_restaurant *inn)
 		if (philo.pid == 0)
 		{
 			philo = new_customer(inn, i + 1);
-			if (philo.id == -1)
-				emergency_exit(inn, "fail making customers\n");
-			if (customer_process(&philo) == -1)
-				emergency_exit(inn, "child fail\n");
-			close_customer_sem(&philo);
+			usleep(123); 
+			if (philo.id != -1)
+				customer_process(&philo);
+			else
+				emergency_exit(inn, &philo, "fail making customers\n");
+			close_establishment(inn);
 			exit(0);
 		}
 		else if (philo.pid > 0)
 			i++;
 		else
-			return (emergency_exit(inn, "error fork"));
+			return (-1);
 	}
 	return (0);
 }
