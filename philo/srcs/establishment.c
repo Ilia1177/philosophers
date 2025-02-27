@@ -85,7 +85,7 @@ int	dress_a_table(t_restaurant *inn)
 	while (++i < inn->guest_nb)
 	{
 		philo = &inn->philo[i].itself;
-		if (pthread_create(philo, NULL, &live, &inn->philo[i]) == -1)
+		if (pthread_create(philo, NULL, &live, &inn->philo[i]))
 			return (close_establishment(inn, i, 1));
 		usleep(500);
 	}
