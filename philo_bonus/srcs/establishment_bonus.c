@@ -26,19 +26,19 @@ int	make_sem(t_restaurant *inn)
 	unlink_sem();
 	inn->forks = sem_open("/silverware", O_CREAT | O_EXCL, 0644, inn->guest_nb);
 	if (inn->forks == SEM_FAILED)
-		return (emergency_exit(inn, "sem_open failed\n"));
+		return (emergency_exit(inn, NULL, "sem_open failed\n"));
 	inn->speak = sem_open("/speaker", O_CREAT | O_EXCL, 0644, 1);
 	if (inn->speak == SEM_FAILED)
-		return (emergency_exit(inn, "sem_open failed\n"));
+		return (emergency_exit(inn, NULL, "sem_open failed\n"));
 	inn->one_dead = sem_open("/death", O_CREAT | O_EXCL, 0644, 0);
 	if (inn->one_dead == SEM_FAILED)
-		return (emergency_exit(inn, "sem_open failed\n"));
+		return (emergency_exit(inn, NULL, "sem_open failed\n"));
 	inn->one_full = sem_open("/full", O_CREAT | O_EXCL, 0644, 0);
 	if (inn->one_full == SEM_FAILED)
-		return (emergency_exit(inn, "sem_open failed\n"));
+		return (emergency_exit(inn, NULL, "sem_open failed\n"));
 	inn->quit = sem_open("/quit", O_CREAT | O_EXCL, 0644, 0);
 	if (inn->quit == SEM_FAILED)
-		return (emergency_exit(inn, "sem_open failed\n"));
+		return (emergency_exit(inn, NULL, "sem_open failed\n"));
 	return (1);
 }
 
@@ -70,7 +70,6 @@ int	close_establishment(t_restaurant *inn)
 	sem_close(inn->one_dead);
 	sem_close(inn->one_full);
 	sem_close(inn->quit);
-	unlink_sem();
 	return (0);
 }
 

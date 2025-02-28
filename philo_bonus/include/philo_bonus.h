@@ -24,6 +24,7 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <string.h>
+# define USAGE "usage : <philo_nb> <t_die> <t_eat> <t_sleep> [max_meal]\n"
 
 typedef struct s_philosoph
 {
@@ -66,6 +67,7 @@ typedef struct s_restaurant
 	int				max_meal;
 }	t_restaurant;
 
+void		close_customer_sem(t_philosoph *philo);
 sem_t		*call_lighthouse_name(char *name, int c, int id);
 int			light_on_sem(t_philosoph *philo, int id);
 void		wait_everybody(t_restaurant *inn);
@@ -91,6 +93,6 @@ int			close_establishment(t_restaurant *inn);
 t_philosoph	new_customer(t_restaurant *inn, int id);
 void		*sit_at_the_table(void *philo);
 int			welcome_customers(t_restaurant *inn);
-int			emergency_exit(t_restaurant *inn, char *message);
+int			emergency_exit(t_restaurant *inn, t_philosoph *philo, char *message);
 int			communication(int argc, char **argv);
 #endif

@@ -41,9 +41,9 @@ int	is_dead(t_philosoph *philo)
 
 int	get_staff_ready(t_restaurant *inn)
 {
-	if (pthread_create(&inn->waiter, NULL, &wait_for_full, inn) == -1)
+	if (pthread_create(&inn->waiter, NULL, &wait_for_full, inn))
 		return (-1);
-	if (pthread_create(&inn->security, NULL, &wait_for_all_dead, inn) == -1)
+	if (pthread_create(&inn->security, NULL, &wait_for_all_dead, inn))
 		return (-1);
 	return (0);
 }
