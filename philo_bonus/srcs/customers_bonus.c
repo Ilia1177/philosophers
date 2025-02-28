@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 01:33:07 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/26 19:00:43 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/12 15:54:57 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	welcome_customers(t_restaurant *inn)
 	i = 0;
 	while (i < inn->guest_nb)
 	{
+		if (i % 2 == 0)
+			usleep(200);
 		philo.pid = fork();
 		if (philo.pid == 0)
 		{
@@ -91,6 +93,9 @@ t_philosoph	new_customer(t_restaurant *inn, int id)
 	gettimeofday(&philo.last_meal, NULL);
 	philo.start = inn->start;
 	if (light_on_sem(&philo, id))
+	{
+		close_customer_sem(&philo);
 		philo.id = -1;
+	}
 	return (philo);
 }
