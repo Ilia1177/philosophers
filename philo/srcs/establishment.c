@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/02/28 14:43:47 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 16:19:16 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ int	open_restaurant(t_restaurant *inn, int argc, char **argv)
 {
 	gettimeofday(&inn->start, NULL);
 	inn->order = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
-	if (ft_atoi(argv[1], &inn->guest_nb) == -1)
+	if (ft_atoi(argv[1], &inn->guest_nb) == -1 || inn->guest_nb <= 0)
 		return (-1);
-	if (ft_atoi(argv[2], &inn->time_to_die) == -1)
+	if (ft_atoi(argv[2], &inn->time_to_die) == -1 || inn->time_to_die <= 0)
 		return (-1);
-	if (ft_atoi(argv[3], &inn->time_to_eat) == -1)
+	if (ft_atoi(argv[3], &inn->time_to_eat) == -1 || inn->time_to_eat <= 0)
 		return (-1);
-	if (ft_atoi(argv[4], &inn->time_to_sleep) == -1)
+	if (ft_atoi(argv[4], &inn->time_to_sleep) == -1 || time_to_sleep <= 0)
 		return (-1);
 	if (argc == 6)
 	{
