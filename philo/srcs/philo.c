@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:15:52 by npolack           #+#    #+#             */
-/*   Updated: 2025/02/28 10:36:08 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 13:51:35 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv)
 	if (argc < 5 || argc > 6 || communication(argc, argv) == -1)
 		return (emergency_exit(NULL, NULL));
 	if (open_restaurant(&inn, argc, argv) == -1)
-		return (emergency_exit(&inn, "Restaurant only accept positive int\n"));
+		return (emergency_exit(&inn, "only accept strict positive int\n"));
 	if (dress_a_table(&inn) == -1)
 		return (emergency_exit(&inn, "fail making philo\n"));
 	i = -1;

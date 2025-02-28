@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:27:32 by npolack           #+#    #+#             */
-/*   Updated: 2025/02/28 11:32:28 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 14:17:09 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	start_thinking(t_philosoph *philo)
 	if (is_starving(philo))
 		return ;
 	speak_poetry("is thinking", philo);
-	//usleep(800);
 }
 
 void	eat(t_philosoph *philo)
