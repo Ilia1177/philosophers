@@ -6,13 +6,11 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 18:34:22 by npolack           #+#    #+#             */
-/*   Updated: 2025/02/28 14:55:19 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 14:58:29 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-
-//static int		take_own_fork_first(t_philosoph *philo);
 
 int	take_forks(t_philosoph *philo)
 {

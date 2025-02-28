@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:22:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/02/28 14:55:27 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 15:00:00 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -18,13 +18,6 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <limits.h>
-
-// ANSI color codes
-# define COLOR_RESET   "\033[0m"
-# define COLOR_RED     "\033[31m"
-# define COLOR_GREEN   "\033[32m"
-# define COLOR_YELLOW  "\033[33m"
-# define COLOR_BLUE    "\033[34m"
 
 typedef struct s_philosoph
 {
@@ -69,7 +62,6 @@ int			take_own_fork_first(t_philosoph *philo);
 // common.c
 void		digest_meal(t_philosoph *philo);
 void		take_time(t_philosoph *philo, int time);
-void		announce(char *message, t_philosoph *philo);
 int			ft_atoi(const char *nptr, int *result);
 long long	look_at_the_time(struct timeval start);
 void		speak_poetry(char *poem, t_philosoph *philo);
@@ -89,7 +81,6 @@ void		start_thinking(t_philosoph *philo);
 void		eat(t_philosoph *philo);
 
 // establishment.c
-
 int			put_chairs_in_place(t_restaurant *inn);
 void		welcome_customer(t_restaurant *inn, int id);
 int			open_restaurant(t_restaurant *inn, int argc, char **argv);
