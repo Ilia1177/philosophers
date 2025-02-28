@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/26 18:20:02 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 10:16:36 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,22 @@ int	make_sem(t_restaurant *inn)
 int	open_restaurant(t_restaurant *inn, int argc, char **argv)
 {
 	gettimeofday(&inn->start, NULL);
-	if (ft_atoi(argv[1], &inn->guest_nb) == -1)
+	if (ft_atoi(argv[1], &inn->guest_nb) == -1 || inn->guest_nb <= 0)
 		return (-1);
-	if (ft_atoi(argv[2], &inn->time_to_die) == -1)
+	if (ft_atoi(argv[2], &inn->time_to_die) == -1 || inn->time_to_die <= 0)
 		return (-1);
-	if (ft_atoi(argv[3], &inn->time_to_eat) == -1)
+	if (ft_atoi(argv[3], &inn->time_to_eat) == -1 || inn->time_to_eat <= 0)
 		return (-1);
-	if (ft_atoi(argv[4], &inn->time_to_sleep) == -1)
+	if (ft_atoi(argv[4], &inn->time_to_sleep) == -1 || inn->time_to_sleep <= 0)
 		return (-1);
 	if (argc == 5)
 		inn->max_meal = -1;
 	else if (argc == 6)
-		if (ft_atoi(argv[5], &inn->max_meal) == -1)
+		if (ft_atoi(argv[5], &inn->max_meal) == -1 || inn->max_meal <= 0)
 			return (-1);
 	if (make_sem(inn) == -1)
 		return (-1);
+	printf("time_to_die = %d\n", inn->time_to_die);
 	return (0);
 }
 

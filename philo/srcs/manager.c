@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:25:34 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/16 14:01:31 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 10:52:26 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ int	is_dead(t_philosoph *philo)
 	long long	from_last_meal;
 
 	pthread_mutex_lock(&philo->watch);
-	from_last_meal = look_at_the_time(&philo->last_meal);
+	from_last_meal = look_at_the_time(philo->last_meal);
 	pthread_mutex_unlock(&philo->watch);
-	if (from_last_meal > philo->time_to_die * 1000)
+	if (from_last_meal > (long long)philo->time_to_die * 1000)
 	{
 		speak_poetry("died", philo);
 		pthread_mutex_lock(&philo->coffin);

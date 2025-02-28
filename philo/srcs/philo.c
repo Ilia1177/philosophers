@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:15:52 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/26 19:03:27 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 10:36:08 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	communication(int argc, char **argv)
 		j = 0;
 		while (argv[i][j])
 		{
-			if ((argv[i][j] > '9' || argv[i][j] < '0') && argv[i][j] != '-')
+			if ((argv[i][j] > '9' || argv[i][j] < '0'))
 				return (-1);
 			j++;
 		}

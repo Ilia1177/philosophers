@@ -6,13 +6,22 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 18:05:14 by ilia              #+#    #+#             */
-/*   Updated: 2025/02/12 15:54:57 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 10:30:33 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
 
-int	emergency_exit(t_restaurant *inn, t_philosoph *philo,  char *message)
+static void	increment_all_sem(t_restaurant *inn)
+{
+	sem_post(inn->one_full);
+	sem_post(inn->one_dead);
+	sem_post(inn->forks);
+	sem_post(inn->speak);
+	sem_post(inn->quit);
+}
+
+int	emergency_exit(t_restaurant *inn, t_philosoph *philo, char *message)
 {
 	int		i;
 
@@ -20,13 +29,7 @@ int	emergency_exit(t_restaurant *inn, t_philosoph *philo,  char *message)
 	if (inn)
 	{
 		while (++i < inn->guest_nb)
-		{
-			sem_post(inn->one_full);
-			sem_post(inn->one_dead);
-			sem_post(inn->forks);
-			sem_post(inn->speak);
-			sem_post(inn->quit);
-		}
+			increment_all_sem(inn);
 		close_establishment(inn);
 	}
 	if (!message)
@@ -56,7 +59,7 @@ int	communication(int argc, char **argv)
 		j = 0;
 		while (argv[i][j])
 		{
-			if ((argv[i][j] > '9' || argv[i][j] < '0') && argv[i][j] != '-')
+			if ((argv[i][j] > '9' || argv[i][j] < '0'))
 				return (-1);
 			j++;
 		}
@@ -72,7 +75,7 @@ int	main(int argc, char **argv)
 	if (communication(argc, argv) == -1)
 		return (emergency_exit(NULL, NULL, NULL));
 	else if (open_restaurant(&inn, argc, argv) == -1)
-		return (emergency_exit(NULL, NULL, "fail opening restaurant\n"));
+		return (emergency_exit(NULL, NULL, "Only accept positive int\n"));
 	else if (welcome_customers(&inn) == -1)
 		return (emergency_exit(&inn, NULL, "Customers has been kicked out\n"));
 	else if (get_staff_ready(&inn) == -1)

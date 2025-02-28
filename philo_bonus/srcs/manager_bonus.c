@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:25:34 by npolack           #+#    #+#             */
-/*   Updated: 2025/02/12 16:10:24 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 10:23:55 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	is_dead(t_philosoph *philo)
 	sem_wait(philo->stomach);
 	from_last_meal = look_at_the_time(&philo->last_meal);
 	sem_post(philo->stomach);
-	if (from_last_meal > philo->time_to_die * 1000)
+	if (from_last_meal > (long long)philo->time_to_die * 1000)
 	{
 		speak_poetry("died", philo);
 		return (1);

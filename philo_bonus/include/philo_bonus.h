@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 16:43:24 by ilia              #+#    #+#             */
-/*   Updated: 2025/01/26 18:22:55 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 10:31:22 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ int			close_establishment(t_restaurant *inn);
 t_philosoph	new_customer(t_restaurant *inn, int id);
 void		*sit_at_the_table(void *philo);
 int			welcome_customers(t_restaurant *inn);
-int			emergency_exit(t_restaurant *inn, t_philosoph *philo, char *message);
+int			emergency_exit(t_restaurant *inn, t_philosoph *philo, char *msg);
 int			communication(int argc, char **argv);
 #endif

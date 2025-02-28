@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:29:55 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/26 14:54:05 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 10:46:59 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,21 @@ void	take_time(t_philosoph *philo, int time)
 	}
 }
 
-long long	look_at_the_time(struct timeval *start)
+long long	look_at_the_time(struct timeval start)
 {
 	struct timeval	current_time;
 	long long		sec;
 	long long		usec;
 
 	gettimeofday(&current_time, NULL);
-	sec = current_time.tv_sec - start->tv_sec;
-	usec = current_time.tv_usec - start->tv_usec;
+	sec = current_time.tv_sec - start.tv_sec;
+	usec = current_time.tv_usec - start.tv_usec;
 	return ((sec * 1000000LL) + (usec));
 }
 
 void	speak_poetry(char *poem, t_philosoph *philo)
 {
-	struct timeval	*start;
+	struct timeval	start;
 	long long		instant;
 	int				color;
 

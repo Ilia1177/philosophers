@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/26 19:03:46 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 11:42:00 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	welcome_customer(t_restaurant *inn, int id)
 	inn->philo[id].time_to_eat = inn->time_to_eat;
 	inn->philo[id].time_to_die = inn->time_to_die;
 	gettimeofday(&inn->philo[id].last_meal, NULL);
-	inn->philo[id].start = &inn->start;
+	gettimeofday(&inn->philo[id].start, NULL);
+	inn->philo[id].start = inn->start;
 }
 
 int	open_restaurant(t_restaurant *inn, int argc, char **argv)
@@ -86,8 +87,11 @@ int	dress_a_table(t_restaurant *inn)
 	{
 		philo = &inn->philo[i].itself;
 		if (pthread_create(philo, NULL, &live, &inn->philo[i]))
-			return (close_establishment(inn, i, 1));
-		usleep(500);
+		{
+			close_establishment(inn, i, 1);
+			return (-1);
+		}
+		usleep(300);
 	}
 	manage_customers(inn);
 	return (1);

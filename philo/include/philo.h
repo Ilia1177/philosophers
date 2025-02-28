@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:22:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/01/26 14:55:08 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 10:46:34 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -33,7 +33,7 @@ typedef struct s_philosoph
 	pthread_mutex_t		coffin;
 	pthread_mutex_t		watch;
 	pthread_mutex_t		stomach;
-	struct timeval		*start;
+	struct timeval		start;
 	struct timeval		last_meal;
 	pthread_t			itself;
 	int					max_meal;
@@ -69,7 +69,7 @@ void		digest_meal(t_philosoph *philo);
 void		take_time(t_philosoph *philo, int time);
 void		announce(char *message, t_philosoph *philo);
 int			ft_atoi(const char *nptr, int *result);
-long long	look_at_the_time(struct timeval *start);
+long long	look_at_the_time(struct timeval start);
 void		speak_poetry(char *poem, t_philosoph *philo);
 
 // manager.c
