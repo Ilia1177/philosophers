@@ -6,7 +6,7 @@
 /*   By: npolack <npolack@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 23:22:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/02/28 10:46:34 by npolack          ###   ########.fr       */
+/*   Updated: 2025/02/28 14:55:27 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -64,6 +64,8 @@ typedef struct s_restaurant
 
 // fork.c
 int			take_forks(t_philosoph *philo);
+int			take_own_fork_first(t_philosoph *philo);
+
 // common.c
 void		digest_meal(t_philosoph *philo);
 void		take_time(t_philosoph *philo, int time);
