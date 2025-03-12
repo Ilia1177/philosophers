@@ -6,7 +6,7 @@
 /*   By: npolack <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:34:39 by npolack           #+#    #+#             */
-/*   Updated: 2025/03/12 15:22:44 by npolack          ###   ########.fr       */
+/*   Updated: 2025/03/12 15:29:02 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	open_restaurant(t_restaurant *inn, int argc, char **argv)
 		return (-1);
 	if (argc == 6)
 	{
-		if (ft_atoi(argv[5], &inn->max_meal) == -1)
+		if (ft_atoi(argv[5], &inn->max_meal) == -1 || inn->max_meal <= 0)
 			return (-1);
 	}
 	else if (argc == 5)
