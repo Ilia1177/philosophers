@@ -6,7 +6,7 @@
 /*   By: ilia <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 01:33:07 by ilia              #+#    #+#             */
-/*   Updated: 2025/02/28 10:25:06 by npolack          ###   ########.fr       */
+/*   Updated: 2025/03/13 21:47:01 by npolack          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	close_customer_sem(t_philosoph *philo)
 	sem_close(philo->speak);
 	sem_close(philo->one_dead);
 	sem_close(philo->one_full);
+	sem_close(philo->quit);
 }
 
 int	welcome_customers(t_restaurant *inn)
